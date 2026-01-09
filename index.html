@@ -1,952 +1,1265 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GMX Prime — Boceto Tiendanube (Homepage)</title>
-  <style>
-    :root{
-      --bg:#0b1220;
-      --surface:#0f1a33;
-      --surface-2:#101c3a;
-      --card:#0f1a33;
-      --text:#eaf0ff;
-      --muted:#b9c5e6;
-      --line:rgba(255,255,255,.10);
-      --primary:#2b6cff;
-      --primary-2:#6aa8ff;
-      --accent:#21c3a3;
-      --shadow: 0 18px 45px rgba(0,0,0,.35);
-      --radius:18px;
-      --radius-sm:12px;
-      --max:1120px;
-    }
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>GMX Prime — Boceto Tiendanube (Homepage)</title>
+		<style>
+			:root {
+				--bg: #0b1220;
+				--surface: #0f1a33;
+				--surface-2: #101c3a;
+				--card: #0f1a33;
+				--text: #eaf0ff;
+				--muted: #b9c5e6;
+				--line: rgba(255, 255, 255, 0.1);
+				--primary: #2b6cff;
+				--primary-2: #6aa8ff;
+				--accent: #21c3a3;
+				--shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+				--radius: 18px;
+				--radius-sm: 12px;
+				--max: 1120px;
+			}
 
-    /* Basic reset */
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 15% 0%, rgba(43,108,255,.20), transparent 55%),
-                  radial-gradient(900px 600px at 95% 10%, rgba(33,195,163,.14), transparent 50%),
-                  linear-gradient(180deg, #070b14, #0b1220 35%, #070b14);
-      color:var(--text);
-      line-height:1.45;
-    }
+			.brand-image {
+				height: 64px;
+				width: auto;
+			}
+			.brand-logo {
+				height: 32px;
+				width: auto;
+				max-width: 100%;
+				display: block;
+				margin: 0 auto;
+			}
+			/* Basic reset */
+			* {
+				box-sizing: border-box;
+			}
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				margin: 0;
+				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+					Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+				background: radial-gradient(
+						1200px 700px at 15% 0%,
+						rgba(43, 108, 255, 0.2),
+						transparent 55%
+					),
+					radial-gradient(
+						900px 600px at 95% 10%,
+						rgba(33, 195, 163, 0.14),
+						transparent 50%
+					),
+					linear-gradient(180deg, #070b14, #0b1220 35%, #070b14);
+				color: var(--text);
+				line-height: 1.45;
+			}
 
-    a{ color:inherit; text-decoration:none; }
-    .container{ width:min(var(--max), calc(100% - 32px)); margin:0 auto; }
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+			.container {
+				width: min(var(--max), calc(100% - 32px));
+				margin: 0 auto;
+			}
 
-    /* Header */
-    header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(11,18,32,.55);
-      border-bottom:1px solid var(--line);
-    }
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 0;
-      gap:14px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px; min-width:180px;
-    }
-    .logo{
-      width:42px; height:42px; border-radius:14px;
-      background: linear-gradient(135deg, rgba(43,108,255,.95), rgba(33,195,163,.85));
-      box-shadow: 0 10px 25px rgba(43,108,255,.25);
-    }
-    .brand b{ font-size:14px; letter-spacing:.08em; text-transform:uppercase; }
-    .brand small{ display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+			/* Header */
+			header {
+				position: sticky;
+				top: 0;
+				z-index: 50;
+				backdrop-filter: blur(10px);
+				background: rgba(11, 18, 32, 0.55);
+				border-bottom: 1px solid var(--line);
+			}
+			.topbar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 14px 0;
+				gap: 14px;
+			}
+			.brand {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				min-width: 180px;
+			}
+			.logo {
+				width: 42px;
+				height: 42px;
+				border-radius: 14px;
+				background: linear-gradient(
+					135deg,
+					rgba(43, 108, 255, 0.95),
+					rgba(33, 195, 163, 0.85)
+				);
+				box-shadow: 0 10px 25px rgba(43, 108, 255, 0.25);
+			}
+			.brand b {
+				font-size: 14px;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+			}
+			.brand small {
+				display: block;
+				font-size: 12px;
+				color: var(--muted);
+				margin-top: 2px;
+			}
 
-    nav{ display:flex; align-items:center; gap:18px; }
-    nav a{
-      color:var(--muted);
-      font-weight:600;
-      font-size:14px;
-      padding:10px 10px;
-      border-radius:12px;
-      transition:.15s ease;
-    }
-    nav a:hover{ color:var(--text); background: rgba(255,255,255,.06); }
+			nav {
+				display: flex;
+				align-items: center;
+				gap: 18px;
+			}
+			nav a {
+				color: var(--muted);
+				font-weight: 600;
+				font-size: 14px;
+				padding: 10px 10px;
+				border-radius: 12px;
+				transition: 0.15s ease;
+			}
+			nav a:hover {
+				color: var(--text);
+				background: rgba(255, 255, 255, 0.06);
+			}
 
-    .header-actions{
-      display:flex; align-items:center; gap:10px;
-      justify-content:flex-end;
-      min-width:260px;
-    }
+			.header-actions {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				justify-content: flex-end;
+				min-width: 260px;
+			}
 
-    .search{
-      display:flex; align-items:center; gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      width:220px;
-    }
-    .search input{
-      width:100%;
-      border:none; outline:none;
-      background:transparent;
-      color:var(--text);
-      font-size:14px;
-    }
-    .icon-btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      width:40px; height:40px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      cursor:pointer;
-      transition:.15s ease;
-    }
-    .icon-btn:hover{ background: rgba(255,255,255,.08); }
+			.search {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				padding: 10px 12px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				width: 220px;
+			}
+			.search input {
+				width: 100%;
+				border: none;
+				outline: none;
+				background: transparent;
+				color: var(--text);
+				font-size: 14px;
+			}
+			.icon-btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 40px;
+				height: 40px;
+				border-radius: 14px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				cursor: pointer;
+				transition: 0.15s ease;
+			}
+			.icon-btn:hover {
+				background: rgba(255, 255, 255, 0.08);
+			}
 
-    .cta{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px;
-      border-radius:999px;
-      background: linear-gradient(135deg, rgba(33,195,163,.92), rgba(43,108,255,.92));
-      border:1px solid rgba(255,255,255,.10);
-      font-weight:800;
-      font-size:14px;
-      box-shadow: 0 16px 35px rgba(33,195,163,.16);
-      white-space:nowrap;
-    }
-    .cta:hover{ filter:brightness(1.05); }
+			.cta {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 10px 14px;
+				border-radius: 999px;
+				background: linear-gradient(
+					135deg,
+					rgba(33, 195, 163, 0.92),
+					rgba(43, 108, 255, 0.92)
+				);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				font-weight: 800;
+				font-size: 14px;
+				box-shadow: 0 16px 35px rgba(33, 195, 163, 0.16);
+				white-space: nowrap;
+			}
+			.cta:hover {
+				filter: brightness(1.05);
+			}
 
-    .hamburger{ display:none; }
+			.hamburger {
+				display: none;
+			}
 
-    /* Hero */
-    .hero{
-      padding:26px 0 10px;
-    }
-    .hero-card{
-      position:relative;
-      overflow:hidden;
-      border-radius:24px;
-      background:
-        radial-gradient(900px 500px at 30% 30%, rgba(43,108,255,.25), transparent 55%),
-        radial-gradient(900px 500px at 80% 30%, rgba(33,195,163,.22), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--line);
-      box-shadow: var(--shadow);
-      min-height: 420px;
-    }
-    .hero-media{
-      position:absolute; inset:0;
-      background:
-        linear-gradient(90deg, rgba(7,11,20,.92) 0%, rgba(7,11,20,.40) 55%, rgba(7,11,20,.15) 100%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'%3E%3Cdefs%3E%3CradialGradient id='g' cx='70%25' cy='40%25'%3E%3Cstop offset='0%25' stop-color='%232b6cff' stop-opacity='.55'/%3E%3Cstop offset='65%25' stop-color='%230b1220' stop-opacity='1'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23g)'/%3E%3Cpath d='M0 680 C 320 620 520 820 860 770 C 1200 720 1360 560 1600 620 L 1600 900 L 0 900 Z' fill='%230f1a33'/%3E%3Ccircle cx='1280' cy='320' r='210' fill='%2321c3a3' opacity='.25'/%3E%3Ccircle cx='1260' cy='300' r='130' fill='%23ffffff' opacity='.10'/%3E%3C/svg%3E");
-      background-size: cover;
-      transform: scale(1.02);
-    }
-    .hero-content{
-      position:relative;
-      padding:46px 34px;
-      max-width: 620px;
-    }
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      color:var(--muted);
-      font-weight:700;
-      font-size:12px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    h1{
-      margin:14px 0 10px;
-      font-size:44px;
-      line-height:1.05;
-      letter-spacing:-.02em;
-    }
-    .lead{
-      color:var(--muted);
-      font-size:16px;
-      margin:0 0 22px;
-      max-width: 52ch;
-    }
-    .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:12px 16px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      font-weight:800;
-      color:var(--text);
-      cursor:pointer;
-      transition:.15s ease;
-    }
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(43,108,255,.96), rgba(106,168,255,.82));
-      border-color: rgba(255,255,255,.12);
-      box-shadow: 0 16px 35px rgba(43,108,255,.18);
-    }
-    .btn:hover{ background: rgba(255,255,255,.10); }
-    .btn.primary:hover{ filter:brightness(1.05); }
+			/* Hero */
+			.hero {
+				padding: 26px 0 10px;
+			}
+			.hero-card {
+				position: relative;
+				overflow: hidden;
+				border-radius: 24px;
+				background: radial-gradient(
+						900px 500px at 30% 30%,
+						rgba(43, 108, 255, 0.25),
+						transparent 55%
+					),
+					radial-gradient(
+						900px 500px at 80% 30%,
+						rgba(33, 195, 163, 0.22),
+						transparent 55%
+					),
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.06),
+						rgba(255, 255, 255, 0.02)
+					);
+				border: 1px solid var(--line);
+				box-shadow: var(--shadow);
+				min-height: 420px;
+			}
+			.hero-media {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+						90deg,
+						rgba(7, 11, 20, 0.92) 0%,
+						rgba(7, 11, 20, 0.4) 55%,
+						rgba(7, 11, 20, 0.15) 100%
+					),
+					url("https://gmxprime.com/wp-content/uploads/2024/11/dark-storage-full-big-variety-new-tyres-busy-warehouse.jpg");
+				background-size: cover;
+				transform: scale(1.02);
+			}
+			.hero-content {
+				position: relative;
+				padding: 46px 34px;
+				max-width: 620px;
+			}
+			.pill {
+				display: inline-flex;
+				gap: 8px;
+				align-items: center;
+				padding: 8px 12px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.06);
+				color: var(--muted);
+				font-weight: 700;
+				font-size: 12px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+			}
+			h1 {
+				margin: 14px 0 10px;
+				font-size: 44px;
+				line-height: 1.05;
+				letter-spacing: -0.02em;
+			}
+			.lead {
+				color: var(--muted);
+				font-size: 16px;
+				margin: 0 0 22px;
+				max-width: 52ch;
+			}
+			.hero-actions {
+				display: flex;
+				gap: 12px;
+				flex-wrap: wrap;
+			}
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 12px 16px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.06);
+				font-weight: 800;
+				color: var(--text);
+				cursor: pointer;
+				transition: 0.15s ease;
+			}
+			.btn.primary {
+				background: linear-gradient(
+					135deg,
+					rgba(43, 108, 255, 0.96),
+					rgba(106, 168, 255, 0.82)
+				);
+				border-color: rgba(255, 255, 255, 0.12);
+				box-shadow: 0 16px 35px rgba(43, 108, 255, 0.18);
+			}
+			.btn:hover {
+				background: rgba(255, 255, 255, 0.1);
+			}
+			.btn.primary:hover {
+				filter: brightness(1.05);
+			}
 
-    .hero-badges{
-      margin-top: 26px;
-      display:flex; gap:10px; flex-wrap:wrap;
-    }
-    .badge{
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      color:var(--muted);
-      font-weight:700;
-      font-size:13px;
-    }
+			.hero-badges {
+				margin-top: 26px;
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
+			.badge {
+				padding: 10px 12px;
+				border-radius: 14px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.05);
+				color: var(--muted);
+				font-weight: 700;
+				font-size: 13px;
+			}
 
-    /* Sections */
-    section{ padding: 26px 0; }
-    .section-title{
-      display:flex; align-items:flex-end; justify-content:space-between;
-      gap:14px;
-      margin-bottom: 14px;
-    }
-    .section-title h2{
-      margin:0;
-      font-size:22px;
-      letter-spacing:-.01em;
-    }
-    .section-title p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      max-width: 60ch;
-    }
+			/* Sections */
+			section {
+				padding: 26px 0;
+			}
+			.section-title {
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+				gap: 14px;
+				margin-bottom: 14px;
+			}
+			.section-title h2 {
+				margin: 0;
+				font-size: 22px;
+				letter-spacing: -0.01em;
+			}
+			.section-title p {
+				margin: 0;
+				color: var(--muted);
+				font-size: 14px;
+				max-width: 60ch;
+			}
 
-    /* Finder */
-    .finder{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      border-radius: 24px;
-      padding: 18px;
-      box-shadow: 0 16px 40px rgba(0,0,0,.20);
-    }
-    .finder-grid{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:12px;
-      align-items:end;
-    }
-    label{ display:block; font-size:12px; color:var(--muted); margin:0 0 6px; font-weight:700; }
-    select, .finder input{
-      width:100%;
-      padding:12px 12px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(7,11,20,.65);
-      color:var(--text);
-      outline:none;
-      font-weight:700;
-    }
-    .finder .btn.primary{
-      width:100%;
-      padding:12px 14px;
-    }
+			/* Finder */
+			.finder {
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				border-radius: 24px;
+				padding: 18px;
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+			}
+			.finder-grid {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				gap: 12px;
+				align-items: end;
+			}
+			label {
+				display: block;
+				font-size: 12px;
+				color: var(--muted);
+				margin: 0 0 6px;
+				font-weight: 700;
+			}
+			select,
+			.finder input {
+				width: 100%;
+				padding: 12px 12px;
+				border-radius: 14px;
+				border: 1px solid var(--line);
+				background: rgba(7, 11, 20, 0.65);
+				color: var(--text);
+				outline: none;
+				font-weight: 700;
+			}
+			.finder .btn.primary {
+				width: 100%;
+				padding: 12px 14px;
+			}
 
-    /* Cards grid */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:14px;
-    }
-    .card{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      border-radius: var(--radius);
-      overflow:hidden;
-      box-shadow: 0 16px 40px rgba(0,0,0,.18);
-      transition: transform .15s ease, background .15s ease;
-      min-height: 180px;
-      position:relative;
-    }
-    .card:hover{ transform: translateY(-2px); background: rgba(255,255,255,.06); }
-    .card .img{
-      height:110px;
-      background:
-        radial-gradient(220px 150px at 70% 40%, rgba(43,108,255,.45), transparent 60%),
-        radial-gradient(220px 150px at 25% 55%, rgba(33,195,163,.30), transparent 60%),
-        linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
-    }
-    .card .body{ padding:12px 12px 14px; }
-    .card h3{ margin:0 0 8px; font-size:15px; }
-    .card p{ margin:0 0 10px; color:var(--muted); font-size:13px; }
-    .mini{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:9px 12px;
-      border-radius: 999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      font-weight:800;
-      font-size:13px;
-    }
+			/* Cards grid */
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				gap: 14px;
+			}
+			.card {
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				border-radius: var(--radius);
+				overflow: hidden;
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+				transition: transform 0.15s ease, background 0.15s ease;
+				min-height: 180px;
+				position: relative;
+			}
+			.card:hover {
+				transform: translateY(-2px);
+				background: rgba(255, 255, 255, 0.06);
+			}
+			.card .img {
+				height: 110px;
+				background: radial-gradient(
+						220px 150px at 70% 40%,
+						rgba(43, 108, 255, 0.45),
+						transparent 60%
+					),
+					radial-gradient(
+						220px 150px at 25% 55%,
+						rgba(33, 195, 163, 0.3),
+						transparent 60%
+					),
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.07),
+						rgba(255, 255, 255, 0.02)
+					);
+			}
+			.card .body {
+				padding: 12px 12px 14px;
+			}
+			.card h3 {
+				margin: 0 0 8px;
+				font-size: 15px;
+			}
+			.card p {
+				margin: 0 0 10px;
+				color: var(--muted);
+				font-size: 13px;
+			}
+			.mini {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 9px 12px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.06);
+				font-weight: 800;
+				font-size: 13px;
+			}
 
-    /* Brands */
-    .brand-strip{
-      display:grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap:10px;
-    }
-    .brand-chip{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius: 16px;
-      padding:14px 12px;
-      text-align:center;
-      color:var(--muted);
-      font-weight:800;
-      letter-spacing:.04em;
-    }
+			/* Brands */
+			.brand-strip {
+				display: grid;
+				grid-template-columns: repeat(6, 1fr);
+				gap: 10px;
+			}
+			.brand-chip {
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.03);
+				border-radius: 16px;
+				padding: 14px 12px;
+				text-align: center;
+				color: var(--muted);
+				font-weight: 800;
+				letter-spacing: 0.04em;
+			}
 
-    /* Products */
-    .product{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      padding:12px;
-    }
-    .product .img{
-      height:140px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background:
-        radial-gradient(260px 180px at 60% 35%, rgba(106,168,255,.30), transparent 60%),
-        radial-gradient(220px 160px at 35% 60%, rgba(33,195,163,.22), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-    }
-    .product h3{ margin:0; font-size:14px; }
-    .product .meta{ color:var(--muted); font-size:12px; font-weight:700; }
-    .price-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-    .price{ font-weight:900; }
-    .tag{
-      padding:6px 10px;
-      border-radius: 999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      color:var(--muted);
-      font-weight:800;
-      font-size:12px;
-    }
+			/* Products */
+			.product {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				padding: 12px;
+			}
+			.product .img {
+				height: 140px;
+				border-radius: 14px;
+				border: 1px solid var(--line);
+				background: radial-gradient(
+						260px 180px at 60% 35%,
+						rgba(106, 168, 255, 0.3),
+						transparent 60%
+					),
+					radial-gradient(
+						220px 160px at 35% 60%,
+						rgba(33, 195, 163, 0.22),
+						transparent 55%
+					),
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.06),
+						rgba(255, 255, 255, 0.02)
+					);
+			}
+			.product h3 {
+				margin: 0;
+				font-size: 14px;
+			}
+			.product .meta {
+				color: var(--muted);
+				font-size: 12px;
+				font-weight: 700;
+			}
+			.price-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 10px;
+			}
+			.price {
+				font-weight: 900;
+			}
+			.tag {
+				padding: 6px 10px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.05);
+				color: var(--muted);
+				font-weight: 800;
+				font-size: 12px;
+			}
 
-    /* Services */
-    .services{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-    }
-    .service{
-      padding:16px;
-      border-radius: var(--radius);
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      box-shadow: 0 16px 40px rgba(0,0,0,.18);
-    }
-    .service b{ display:block; margin-bottom:6px; }
-    .service span{ color:var(--muted); font-size:13px; }
+			/* Services */
+			.services {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 14px;
+			}
+			.service {
+				padding: 16px;
+				border-radius: var(--radius);
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+			}
+			.service b {
+				display: block;
+				margin-bottom: 6px;
+			}
+			.service span {
+				color: var(--muted);
+				font-size: 13px;
+			}
 
-    /* Social proof */
-    .proof{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:14px;
-      align-items:stretch;
-    }
-    .panel{
-      border-radius: 24px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      box-shadow: var(--shadow);
-      padding:18px;
-    }
-    .quotes{ display:grid; gap:12px; }
-    .quote{
-      border-radius: 18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      padding:14px;
-    }
-    .quote p{ margin:0 0 8px; color:var(--text); }
-    .quote small{ color:var(--muted); font-weight:800; }
+			/* Social proof */
+			.proof {
+				display: grid;
+				grid-template-columns: 1.2fr 0.8fr;
+				gap: 14px;
+				align-items: stretch;
+			}
+			.panel {
+				border-radius: 24px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				box-shadow: var(--shadow);
+				padding: 18px;
+			}
+			.quotes {
+				display: grid;
+				gap: 12px;
+			}
+			.quote {
+				border-radius: 18px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.05);
+				padding: 14px;
+			}
+			.quote p {
+				margin: 0 0 8px;
+				color: var(--text);
+			}
+			.quote small {
+				color: var(--muted);
+				font-weight: 800;
+			}
 
-    /* CTA strip */
-    .cta-strip{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:16px 18px;
-      border-radius: 24px;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(135deg, rgba(43,108,255,.22), rgba(33,195,163,.18));
-      box-shadow: 0 18px 45px rgba(0,0,0,.22);
-    }
-    .cta-strip b{ font-size:16px; }
-    .cta-strip span{ display:block; color:var(--muted); font-size:13px; margin-top:4px; }
+			/* CTA strip */
+			.cta-strip {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 14px;
+				padding: 16px 18px;
+				border-radius: 24px;
+				border: 1px solid rgba(255, 255, 255, 0.12);
+				background: linear-gradient(
+					135deg,
+					rgba(43, 108, 255, 0.22),
+					rgba(33, 195, 163, 0.18)
+				);
+				box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+			}
+			.cta-strip b {
+				font-size: 16px;
+			}
+			.cta-strip span {
+				display: block;
+				color: var(--muted);
+				font-size: 13px;
+				margin-top: 4px;
+			}
 
-    /* Footer */
-    footer{
-      margin-top: 26px;
-      border-top:1px solid var(--line);
-      background: rgba(7,11,20,.55);
-      padding: 26px 0 30px;
-    }
-    .footer-grid{
-      display:grid;
-      grid-template-columns: 1.3fr .7fr .7fr;
-      gap:18px;
-    }
-    .footer-card{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius: 24px;
-      padding:16px;
-    }
-    .kvs{ display:grid; gap:10px; margin-top:10px; color:var(--muted); font-weight:700; font-size:13px; }
-    .kvs a{ color:var(--text); }
-    .links{ display:grid; gap:8px; margin-top:8px; color:var(--muted); font-weight:700; font-size:13px; }
-    .copyright{
-      text-align:center;
-      color:rgba(234,240,255,.65);
-      font-weight:700;
-      font-size:12px;
-      margin-top:18px;
-    }
+			/* Footer */
+			footer {
+				margin-top: 26px;
+				border-top: 1px solid var(--line);
+				background: rgba(7, 11, 20, 0.55);
+				padding: 26px 0 30px;
+			}
+			.footer-grid {
+				display: grid;
+				grid-template-columns: 1.3fr 0.7fr 0.7fr;
+				gap: 18px;
+			}
+			.footer-card {
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.03);
+				border-radius: 24px;
+				padding: 16px;
+			}
+			.kvs {
+				display: grid;
+				gap: 10px;
+				margin-top: 10px;
+				color: var(--muted);
+				font-weight: 700;
+				font-size: 13px;
+			}
+			.kvs a {
+				color: var(--text);
+			}
+			.links {
+				display: grid;
+				gap: 8px;
+				margin-top: 8px;
+				color: var(--muted);
+				font-weight: 700;
+				font-size: 13px;
+			}
+			.copyright {
+				text-align: center;
+				color: rgba(234, 240, 255, 0.65);
+				font-weight: 700;
+				font-size: 12px;
+				margin-top: 18px;
+			}
 
-    /* Mobile */
-    @media (max-width: 980px){
-      nav{ display:none; }
-      .hamburger{ display:inline-flex; }
-      .search{ display:none; }
-      .header-actions{ min-width:auto; }
-      h1{ font-size:38px; }
-      .grid{ grid-template-columns: repeat(2, 1fr); }
-      .brand-strip{ grid-template-columns: repeat(3, 1fr); }
-      .finder-grid{ grid-template-columns: repeat(2, 1fr); }
-      .services{ grid-template-columns: 1fr; }
-      .proof{ grid-template-columns: 1fr; }
-      .footer-grid{ grid-template-columns: 1fr; }
-    }
+			/* Mobile */
+			@media (max-width: 980px) {
+				nav {
+					display: none;
+				}
+				.hamburger {
+					display: inline-flex;
+				}
+				.search {
+					display: none;
+				}
+				.header-actions {
+					min-width: auto;
+				}
+				h1 {
+					font-size: 38px;
+				}
+				.grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.brand-strip {
+					grid-template-columns: repeat(3, 1fr);
+				}
+				.finder-grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.services {
+					grid-template-columns: 1fr;
+				}
+				.proof {
+					grid-template-columns: 1fr;
+				}
+				.footer-grid {
+					grid-template-columns: 1fr;
+				}
+			}
 
-    /* Simple mobile menu */
-    .mobile-menu{
-      display:none;
-      border-top:1px solid var(--line);
-      background: rgba(11,18,32,.82);
-      padding: 10px 0 16px;
-    }
-    .mobile-menu a{
-      display:block;
-      padding:12px 6px;
-      color:var(--muted);
-      font-weight:800;
-      border-radius: 12px;
-    }
-    .mobile-menu a:hover{ background: rgba(255,255,255,.06); color:var(--text); }
-    .mobile-menu.show{ display:block; }
-  </style>
-</head>
-<body>
+			/* Simple mobile menu */
+			.mobile-menu {
+				display: none;
+				border-top: 1px solid var(--line);
+				background: rgba(11, 18, 32, 0.82);
+				padding: 10px 0 16px;
+			}
+			.mobile-menu a {
+				display: block;
+				padding: 12px 6px;
+				color: var(--muted);
+				font-weight: 800;
+				border-radius: 12px;
+			}
+			.mobile-menu a:hover {
+				background: rgba(255, 255, 255, 0.06);
+				color: var(--text);
+			}
+			.mobile-menu.show {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<div class="topbar">
+					<a class="brand" href="#inicio" aria-label="GMX Prime">
+						<div>
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2019/12/cropped-cropped-logo-gmxtw.png"
+								alt="GMX Prime"
+								class="brand-image"
+							/>
+						</div>
+					</a>
 
-<header>
-  <div class="container">
-    <div class="topbar">
-      <a class="brand" href="#inicio" aria-label="GMX Prime">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <b>GMX Prime</b>
-          <small>Tires & Wheels</small>
-        </div>
-      </a>
+					<nav aria-label="Navegación principal">
+						<a href="#inicio">Inicio</a>
+						<a href="#nosotros">Nosotros</a>
+						<a href="#catalogo">Catálogo</a>
+						<a href="#productos">Productos</a>
+						<a href="#blog">Blog</a>
+						<a href="#contacto">Contacto</a>
+					</nav>
 
-      <nav aria-label="Navegación principal">
-        <a href="#inicio">Inicio</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#catalogo">Catálogo</a>
-        <a href="#productos">Productos</a>
-        <a href="#blog">Blog</a>
-        <a href="#contacto">Contacto</a>
-      </nav>
+					<div class="header-actions">
+						<div class="search" role="search" aria-label="Buscar">
+							<span aria-hidden="true">🔎</span>
+							<input
+								type="search"
+								placeholder="Buscar llanta, medida, marca..."
+							/>
+						</div>
 
-      <div class="header-actions">
-        <div class="search" role="search" aria-label="Buscar">
-          <span aria-hidden="true">🔎</span>
-          <input type="search" placeholder="Buscar llanta, medida, marca..." />
-        </div>
+						<button
+							class="icon-btn hamburger"
+							id="menuBtn"
+							aria-label="Abrir menú"
+						>
+							☰
+						</button>
 
-        <button class="icon-btn hamburger" id="menuBtn" aria-label="Abrir menú">
-          ☰
-        </button>
+						<button class="icon-btn" aria-label="Carrito">🛒</button>
 
-        <button class="icon-btn" aria-label="Carrito">
-          🛒
-        </button>
+						<a class="cta" href="#contacto" aria-label="Cotizar por WhatsApp"
+							>Cotizar / WhatsApp</a
+						>
+					</div>
+				</div>
 
-        <a class="cta" href="#contacto" aria-label="Cotizar por WhatsApp">Cotizar / WhatsApp</a>
-      </div>
-    </div>
+				<div class="mobile-menu" id="mobileMenu" aria-label="Menú móvil">
+					<div class="container">
+						<a href="#inicio">Inicio</a>
+						<a href="#nosotros">Nosotros</a>
+						<a href="#catalogo">Catálogo</a>
+						<a href="#productos">Productos</a>
+						<a href="#blog">Blog</a>
+						<a href="#contacto">Contacto</a>
+					</div>
+				</div>
+			</div>
+		</header>
 
-    <div class="mobile-menu" id="mobileMenu" aria-label="Menú móvil">
-      <div class="container">
-        <a href="#inicio">Inicio</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#catalogo">Catálogo</a>
-        <a href="#productos">Productos</a>
-        <a href="#blog">Blog</a>
-        <a href="#contacto">Contacto</a>
-      </div>
-    </div>
-  </div>
-</header>
+		<main>
+			<!-- HERO -->
+			<section class="hero" id="inicio">
+				<div class="container">
+					<div class="hero-card">
+						<div class="hero-media" aria-hidden="true"></div>
+						<div class="hero-content">
+							<div class="pill">Importación • Comercialización • Mayoreo</div>
+							<h1>Impulsamos tu camino</h1>
+							<p class="lead">
+								Llanta correcta, para cada necesidad: pasajeros, carga, agrícola
+								e industrial. Diseño pensado para convertir en Tiendanube.
+							</p>
+							<div class="hero-actions">
+								<a class="btn primary" href="#catalogo">Ver catálogo</a>
+								<a class="btn" href="#finder">Buscar por medida</a>
+								<a class="btn" href="#contacto">Contactar</a>
+							</div>
 
-<main>
+							<div class="hero-badges" aria-label="Beneficios rápidos">
+								<div class="badge">✅ Soporte y asesoría</div>
+								<div class="badge">⚡ Envíos y cobertura</div>
+								<div class="badge">🛡️ Garantía y confianza</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
-  <!-- HERO -->
-  <section class="hero" id="inicio">
-    <div class="container">
-      <div class="hero-card">
-        <div class="hero-media" aria-hidden="true"></div>
-        <div class="hero-content">
-          <div class="pill">Importación • Comercialización • Mayoreo</div>
-          <h1>Impulsamos tu camino</h1>
-          <p class="lead">
-            Llanta correcta, para cada necesidad: pasajeros, carga, agrícola e industrial.
-            Diseño pensado para convertir en Tiendanube.
-          </p>
-          <div class="hero-actions">
-            <a class="btn primary" href="#catalogo">Ver catálogo</a>
-            <a class="btn" href="#finder">Buscar por medida</a>
-            <a class="btn" href="#contacto">Contactar</a>
-          </div>
+			<!-- FINDER -->
+			<section id="finder">
+				<div class="container">
+					<div class="section-title">
+						<div>
+							<h2>Busca tu llanta ideal</h2>
+							<p>
+								Bloque clave para Tiendanube: guía a categorías/colecciones (por
+								medida, uso o marca).
+							</p>
+						</div>
+					</div>
 
-          <div class="hero-badges" aria-label="Beneficios rápidos">
-            <div class="badge">✅ Soporte y asesoría</div>
-            <div class="badge">⚡ Envíos y cobertura</div>
-            <div class="badge">🛡️ Garantía y confianza</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+					<div class="finder" aria-label="Buscador por medida (boceto)">
+						<div class="finder-grid">
+							<div>
+								<label for="ancho">Ancho</label>
+								<select id="ancho">
+									<option value="">Selecciona…</option>
+									<option>195</option>
+									<option>205</option>
+									<option>215</option>
+									<option>225</option>
+									<option>235</option>
+								</select>
+							</div>
+							<div>
+								<label for="perfil">Perfil (alto)</label>
+								<select id="perfil">
+									<option value="">Selecciona…</option>
+									<option>45</option>
+									<option>50</option>
+									<option>55</option>
+									<option>60</option>
+									<option>65</option>
+								</select>
+							</div>
+							<div>
+								<label for="rin">Rin</label>
+								<select id="rin">
+									<option value="">Selecciona…</option>
+									<option>15</option>
+									<option>16</option>
+									<option>17</option>
+									<option>18</option>
+									<option>20</option>
+								</select>
+							</div>
+							<div>
+								<button
+									class="btn primary"
+									type="button"
+									onclick="fakeSearch()"
+								>
+									Buscar
+								</button>
+							</div>
+						</div>
+						<p
+							id="searchResult"
+							style="
+								margin: 12px 0 0;
+								color: var(--muted);
+								font-weight: 700;
+								font-size: 13px;
+							"
+						></p>
+					</div>
+				</div>
+			</section>
 
-  <!-- FINDER -->
-  <section id="finder">
-    <div class="container">
-      <div class="section-title">
-        <div>
-          <h2>Busca tu llanta ideal</h2>
-          <p>Bloque clave para Tiendanube: guía a categorías/colecciones (por medida, uso o marca).</p>
-        </div>
-      </div>
+			<!-- CATALOGO (HUB) -->
+			<section id="catalogo">
+				<div class="container">
+					<div class="section-title">
+						<div>
+							<h2>Catálogo por categoría</h2>
+							<p>
+								Tarjetas grandes y limpias (como tu sitio actual), listas para
+								enlazar a categorías Tiendanube.
+							</p>
+						</div>
+					</div>
 
-      <div class="finder" aria-label="Buscador por medida (boceto)">
-        <div class="finder-grid">
-          <div>
-            <label for="ancho">Ancho</label>
-            <select id="ancho">
-              <option value="">Selecciona…</option>
-              <option>195</option><option>205</option><option>215</option><option>225</option><option>235</option>
-            </select>
-          </div>
-          <div>
-            <label for="perfil">Perfil (alto)</label>
-            <select id="perfil">
-              <option value="">Selecciona…</option>
-              <option>45</option><option>50</option><option>55</option><option>60</option><option>65</option>
-            </select>
-          </div>
-          <div>
-            <label for="rin">Rin</label>
-            <select id="rin">
-              <option value="">Selecciona…</option>
-              <option>15</option><option>16</option><option>17</option><option>18</option><option>20</option>
-            </select>
-          </div>
-          <div>
-            <button class="btn primary" type="button" onclick="fakeSearch()">Buscar</button>
-          </div>
-        </div>
-        <p id="searchResult" style="margin:12px 0 0; color:var(--muted); font-weight:700; font-size:13px;"></p>
-      </div>
-    </div>
-  </section>
+					<div class="grid" aria-label="Categorías">
+						<a class="card" href="#" aria-label="Autos y camionetas">
+							<div class="img">
+								<img src="assets/img/auto_camioneta.png" alt="" />
+							</div>
+							<div class="body">
+								<h3>Autos & Camionetas</h3>
+								<p>Uso diario, carretera y desempeño.</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+						<a class="card" href="#" aria-label="Llantas para camión">
+							<div class="img">
+								<img src="assets/img/camion.png" alt="" />
+							</div>
+							<div class="body">
+								<h3>Camión</h3>
+								<p>Larga distancia, carga y flotillas.</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+						<a class="card" href="#" aria-label="Llantas agrícolas">
+							<div class="img">
+								<img src="assets/img/agricola.png" alt="" />
+							</div>
+							<div class="body">
+								<h3>Agricultura</h3>
+								<p>Tracción y durabilidad en campo.</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+						<a class="card" href="#" aria-label="Industriales y OTR">
+							<div class="img"></div>
+							<div class="body">
+								<h3>Industrial / OTR</h3>
+								<p>Construcción, minería y trabajo pesado.</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
 
-  <!-- CATALOGO (HUB) -->
-  <section id="catalogo">
-    <div class="container">
-      <div class="section-title">
-        <div>
-          <h2>Catálogo por categoría</h2>
-          <p>Tarjetas grandes y limpias (como tu sitio actual), listas para enlazar a categorías Tiendanube.</p>
-        </div>
-      </div>
+						<a class="card" href="#" aria-label="Montacargas">
+							<div class="img"></div>
+							<div class="body">
+								<h3>Montacargas</h3>
+								<p>Bodegas y operación intensiva.</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+						<a class="card" href="#" aria-label="Rines">
+							<div class="img"></div>
+							<div class="body">
+								<h3>Rines</h3>
+								<p>Opciones para camión y desempeño.</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+						<a class="card" href="#" aria-label="Razor / ATV">
+							<div class="img"></div>
+							<div class="body">
+								<h3>Razor / ATV</h3>
+								<p>Off-road y aventura.</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+						<a class="card" href="#" aria-label="Ofertas">
+							<div class="img"></div>
+							<div class="body">
+								<h3>Ofertas</h3>
+								<p>Promos y liquidaciones (si aplica).</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+					</div>
+				</div>
+			</section>
 
-      <div class="grid" aria-label="Categorías">
-        <a class="card" href="#" aria-label="Autos y camionetas">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Autos & Camionetas</h3>
-            <p>Uso diario, carretera y desempeño.</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
-        <a class="card" href="#" aria-label="Llantas para camión">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Camión</h3>
-            <p>Larga distancia, carga y flotillas.</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
-        <a class="card" href="#" aria-label="Llantas agrícolas">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Agricultura</h3>
-            <p>Tracción y durabilidad en campo.</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
-        <a class="card" href="#" aria-label="Industriales y OTR">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Industrial / OTR</h3>
-            <p>Construcción, minería y trabajo pesado.</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
+			<!-- BRANDS -->
+			<section>
+				<div class="container">
+					<div class="section-title">
+						<div>
+							<h2>Nuestras marcas</h2>
+							<p>
+								En Tiendanube puede ser carrusel o grid con enlaces a colección
+								por marca.
+							</p>
+						</div>
+					</div>
 
-        <a class="card" href="#" aria-label="Montacargas">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Montacargas</h3>
-            <p>Bodegas y operación intensiva.</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
-        <a class="card" href="#" aria-label="Rines">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Rines</h3>
-            <p>Opciones para camión y desempeño.</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
-        <a class="card" href="#" aria-label="Razor / ATV">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Razor / ATV</h3>
-            <p>Off-road y aventura.</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
-        <a class="card" href="#" aria-label="Ofertas">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Ofertas</h3>
-            <p>Promos y liquidaciones (si aplica).</p>
-            <span class="mini">Ver más →</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
+					<div class="brand-strip" aria-label="Marcas">
+						<div class="brand-chip">
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2024/11/gmx@2x.png"
+								alt="GMX Prime"
+								class="brand-logo"
+							/>
+						</div>
+						<div class="brand-chip">
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2024/11/sunshine@2x.png"
+								alt="Marca 1"
+								class="brand-logo"
+							/>
+						</div>
+						<div class="brand-chip">
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2024/11/landscape@2x.png"
+								alt="Marca 1"
+								class="brand-logo"
+							/>
+						</div>
+						<div class="brand-chip">
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2024/11/dynasty@2x-1536x270.png"
+								alt="Marca 1"
+								class="brand-logo"
+							/>
+						</div>
+						<div class="brand-chip">
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2024/11/Empire@2x.png"
+								alt="Marca 1"
+								class="brand-logo"
+							/>
+						</div>
+						<div class="brand-chip">
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2024/11/ceeport@2x.png"
+								alt="Marca 1"
+								class="brand-logo"
+							/>
+						</div>
+					</div>
+				</div>
+			</section>
 
-  <!-- BRANDS -->
-  <section>
-    <div class="container">
-      <div class="section-title">
-        <div>
-          <h2>Nuestras marcas</h2>
-          <p>En Tiendanube puede ser carrusel o grid con enlaces a colección por marca.</p>
-        </div>
-      </div>
+			<!-- PRODUCTS (DESTACADOS / MÁS VENDIDOS) -->
+			<section id="productos">
+				<div class="container">
+					<div class="section-title">
+						<div>
+							<h2>Productos destacados</h2>
+							<p>
+								6–8 productos máximo para no saturar. Cada ficha debe mostrar
+								medida y specs clave.
+							</p>
+						</div>
+						<a class="mini" href="#" aria-label="Ver todos los productos"
+							>Ver todo →</a
+						>
+					</div>
 
-      <div class="brand-strip" aria-label="Marcas">
-        <div class="brand-chip">LANDSCAPE</div>
-        <div class="brand-chip">Marca 2</div>
-        <div class="brand-chip">Marca 3</div>
-        <div class="brand-chip">Marca 4</div>
-        <div class="brand-chip">Marca 5</div>
-        <div class="brand-chip">Marca 6</div>
-      </div>
-    </div>
-  </section>
+					<div class="grid" aria-label="Productos destacados">
+						<div class="card product">
+							<div class="img"></div>
+							<div>
+								<h3>Marca / Modelo — 205/55R16</h3>
+								<div class="meta">Pasajero • Asfalto • Índice 91V</div>
+							</div>
+							<div class="price-row">
+								<div class="price">$0,000</div>
+								<div class="tag">Disponible</div>
+							</div>
+							<a class="btn primary" href="#" style="text-align: center"
+								>Ver detalles</a
+							>
+						</div>
 
-  <!-- PRODUCTS (DESTACADOS / MÁS VENDIDOS) -->
-  <section id="productos">
-    <div class="container">
-      <div class="section-title">
-        <div>
-          <h2>Productos destacados</h2>
-          <p>6–8 productos máximo para no saturar. Cada ficha debe mostrar medida y specs clave.</p>
-        </div>
-        <a class="mini" href="#" aria-label="Ver todos los productos">Ver todo →</a>
-      </div>
+						<div class="card product">
+							<div class="img"></div>
+							<div>
+								<h3>Marca / Modelo — 195/65R15</h3>
+								<div class="meta">Económica • Ciudad • Índice 91H</div>
+							</div>
+							<div class="price-row">
+								<div class="price">$0,000</div>
+								<div class="tag">Top venta</div>
+							</div>
+							<a class="btn primary" href="#" style="text-align: center"
+								>Ver detalles</a
+							>
+						</div>
 
-      <div class="grid" aria-label="Productos destacados">
-        <div class="card product">
-          <div class="img"></div>
-          <div>
-            <h3>Marca / Modelo — 205/55R16</h3>
-            <div class="meta">Pasajero • Asfalto • Índice 91V</div>
-          </div>
-          <div class="price-row">
-            <div class="price">$0,000</div>
-            <div class="tag">Disponible</div>
-          </div>
-          <a class="btn primary" href="#" style="text-align:center;">Ver detalles</a>
-        </div>
+						<div class="card product">
+							<div class="img"></div>
+							<div>
+								<h3>Marca / Modelo — 11R22.5</h3>
+								<div class="meta">Camión • Larga distancia</div>
+							</div>
+							<div class="price-row">
+								<div class="price">$0,000</div>
+								<div class="tag">Mayoreo</div>
+							</div>
+							<a class="btn primary" href="#" style="text-align: center"
+								>Ver detalles</a
+							>
+						</div>
 
-        <div class="card product">
-          <div class="img"></div>
-          <div>
-            <h3>Marca / Modelo — 195/65R15</h3>
-            <div class="meta">Económica • Ciudad • Índice 91H</div>
-          </div>
-          <div class="price-row">
-            <div class="price">$0,000</div>
-            <div class="tag">Top venta</div>
-          </div>
-          <a class="btn primary" href="#" style="text-align:center;">Ver detalles</a>
-        </div>
+						<div class="card product">
+							<div class="img"></div>
+							<div>
+								<h3>Marca / Modelo — Agrícola</h3>
+								<div class="meta">Tracción • Campo</div>
+							</div>
+							<div class="price-row">
+								<div class="price">$0,000</div>
+								<div class="tag">Cotiza</div>
+							</div>
+							<a class="btn primary" href="#" style="text-align: center"
+								>Ver detalles</a
+							>
+						</div>
+					</div>
+				</div>
+			</section>
 
-        <div class="card product">
-          <div class="img"></div>
-          <div>
-            <h3>Marca / Modelo — 11R22.5</h3>
-            <div class="meta">Camión • Larga distancia</div>
-          </div>
-          <div class="price-row">
-            <div class="price">$0,000</div>
-            <div class="tag">Mayoreo</div>
-          </div>
-          <a class="btn primary" href="#" style="text-align:center;">Ver detalles</a>
-        </div>
+			<!-- SERVICES / BENEFITS -->
+			<section>
+				<div class="container">
+					<div class="section-title">
+						<div>
+							<h2>Servicios y beneficios</h2>
+							<p>
+								Sección de confianza. Puedes ajustar a lo que realmente ofreces.
+							</p>
+						</div>
+					</div>
 
-        <div class="card product">
-          <div class="img"></div>
-          <div>
-            <h3>Marca / Modelo — Agrícola</h3>
-            <div class="meta">Tracción • Campo</div>
-          </div>
-          <div class="price-row">
-            <div class="price">$0,000</div>
-            <div class="tag">Cotiza</div>
-          </div>
-          <a class="btn primary" href="#" style="text-align:center;">Ver detalles</a>
-        </div>
-      </div>
-    </div>
-  </section>
+					<div class="services" aria-label="Servicios">
+						<div class="service">
+							<b>Asesoría experta</b>
+							<span>Te ayudamos a elegir medida, uso y rendimiento.</span>
+						</div>
+						<div class="service">
+							<b>Entrega y cobertura</b>
+							<span>Opciones de envío y atención a clientes en México.</span>
+						</div>
+						<div class="service">
+							<b>Garantía y soporte</b>
+							<span>Políticas claras, seguimiento y respaldo de marcas.</span>
+						</div>
+					</div>
+				</div>
+			</section>
 
-  <!-- SERVICES / BENEFITS -->
-  <section>
-    <div class="container">
-      <div class="section-title">
-        <div>
-          <h2>Servicios y beneficios</h2>
-          <p>Sección de confianza. Puedes ajustar a lo que realmente ofreces.</p>
-        </div>
-      </div>
+			<!-- SOCIAL PROOF -->
+			<section>
+				<div class="container">
+					<div class="proof" aria-label="Confianza y pruebas sociales">
+						<div class="panel">
+							<div class="section-title" style="margin-bottom: 10px">
+								<div>
+									<h2>Por qué confiar en GMX Prime</h2>
+									<p>
+										Señales de confianza: reseñas, certificaciones, garantías y
+										transparencia.
+									</p>
+								</div>
+							</div>
 
-      <div class="services" aria-label="Servicios">
-        <div class="service">
-          <b>Asesoría experta</b>
-          <span>Te ayudamos a elegir medida, uso y rendimiento.</span>
-        </div>
-        <div class="service">
-          <b>Entrega y cobertura</b>
-          <span>Opciones de envío y atención a clientes en México.</span>
-        </div>
-        <div class="service">
-          <b>Garantía y soporte</b>
-          <span>Políticas claras, seguimiento y respaldo de marcas.</span>
-        </div>
-      </div>
-    </div>
-  </section>
+							<div class="quotes">
+								<div class="quote">
+									<p>
+										“Encontré rápido mi medida y me atendieron por WhatsApp en
+										minutos.”
+									</p>
+									<small>Cliente • Mayoreo</small>
+								</div>
+								<div class="quote">
+									<p>
+										“Ficha técnica clara y disponibilidad visible. Muy fácil
+										comprar.”
+									</p>
+									<small>Cliente • Flotilla</small>
+								</div>
+							</div>
+						</div>
 
-  <!-- SOCIAL PROOF -->
-  <section>
-    <div class="container">
-      <div class="proof" aria-label="Confianza y pruebas sociales">
-        <div class="panel">
-          <div class="section-title" style="margin-bottom:10px;">
-            <div>
-              <h2>Por qué confiar en GMX Prime</h2>
-              <p>Señales de confianza: reseñas, certificaciones, garantías y transparencia.</p>
-            </div>
-          </div>
+						<div class="panel">
+							<b style="font-size: 16px">Datos rápidos</b>
+							<div class="kvs">
+								<div>⭐ 4.8/5 reseñas (ejemplo)</div>
+								<div>🛡️ Garantías visibles</div>
+								<div>📦 Inventario / disponibilidad</div>
+								<div>💬 Chat / WhatsApp</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
 
-          <div class="quotes">
-            <div class="quote">
-              <p>“Encontré rápido mi medida y me atendieron por WhatsApp en minutos.”</p>
-              <small>Cliente • Mayoreo</small>
-            </div>
-            <div class="quote">
-              <p>“Ficha técnica clara y disponibilidad visible. Muy fácil comprar.”</p>
-              <small>Cliente • Flotilla</small>
-            </div>
-          </div>
-        </div>
+			<!-- CTA STRIP -->
+			<section>
+				<div class="container">
+					<div class="cta-strip" aria-label="Llamado a la acción final">
+						<div>
+							<b>¿No encuentras tu medida o necesitas mayoreo?</b>
+							<span>Escríbenos y te armamos una cotización rápida.</span>
+						</div>
+						<a class="btn primary" href="#contacto">Cotizar ahora</a>
+					</div>
+				</div>
+			</section>
+		</main>
 
-        <div class="panel">
-          <b style="font-size:16px;">Datos rápidos</b>
-          <div class="kvs">
-            <div>⭐ 4.8/5 reseñas (ejemplo)</div>
-            <div>🛡️ Garantías visibles</div>
-            <div>📦 Inventario / disponibilidad</div>
-            <div>💬 Chat / WhatsApp</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+		<footer id="contacto">
+			<div class="container">
+				<div class="footer-grid">
+					<div class="footer-card">
+						<b style="font-size: 16px">Contacto</b>
+						<div class="kvs">
+							<div>📍 San Luis Potosí (ejemplo)</div>
+							<div>📞 <a href="tel:+524441449905">+52 444 144 9905</a></div>
+							<div>
+								💬
+								<a href="#" aria-label="WhatsApp">WhatsApp: +52 444 827 8252</a>
+							</div>
+							<div>
+								✉️ <a href="mailto:ventas@gmxprime.com">ventas@gmxprime.com</a>
+							</div>
+							<div>🕘 Lun–Vie: 9:00–18:00</div>
+						</div>
+					</div>
 
-  <!-- CTA STRIP -->
-  <section>
-    <div class="container">
-      <div class="cta-strip" aria-label="Llamado a la acción final">
-        <div>
-          <b>¿No encuentras tu medida o necesitas mayoreo?</b>
-          <span>Escríbenos y te armamos una cotización rápida.</span>
-        </div>
-        <a class="btn primary" href="#contacto">Cotizar ahora</a>
-      </div>
-    </div>
-  </section>
+					<div class="footer-card">
+						<b style="font-size: 16px">Enlaces</b>
+						<div class="links">
+							<a href="#catalogo">Catálogo</a>
+							<a href="#productos">Productos</a>
+							<a href="#blog">Blog</a>
+							<a href="#nosotros">Nosotros</a>
+							<a href="#contacto">Contacto</a>
+						</div>
+					</div>
 
-  <!-- BLOG PREVIEW -->
-  <section id="blog">
-    <div class="container">
-      <div class="section-title">
-        <div>
-          <h2>Blog (preview)</h2>
-          <p>Útil para SEO: guías de medidas, mantenimiento, consejos y novedades.</p>
-        </div>
-        <a class="mini" href="#" aria-label="Ir al blog">Ver blog →</a>
-      </div>
+					<div class="footer-card">
+						<b style="font-size: 16px">Políticas</b>
+						<div class="links">
+							<a href="#">Envíos</a>
+							<a href="#">Cambios y devoluciones</a>
+							<a href="#">Privacidad</a>
+							<a href="#">Términos</a>
+						</div>
+						<div
+							style="
+								margin-top: 12px;
+								color: var(--muted);
+								font-size: 13px;
+								font-weight: 700;
+							"
+						>
+							(En Tiendanube estas páginas suelen ser “Páginas” del sitio).
+						</div>
+					</div>
+				</div>
 
-      <div class="grid" aria-label="Artículos del blog">
-        <div class="card">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Cómo leer la medida de tu llanta</h3>
-            <p>Guía rápida para ancho, perfil y rin.</p>
-            <span class="mini">Leer →</span>
-          </div>
-        </div>
-        <div class="card">
-          <div class="img"></div>
-          <div class="body">
-            <h3>¿Cuándo cambiar tus llantas?</h3>
-            <p>Señales de desgaste y recomendaciones.</p>
-            <span class="mini">Leer →</span>
-          </div>
-        </div>
-        <div class="card">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Llantas para camión: lo esencial</h3>
-            <p>Aplicación, carga y mantenimiento.</p>
-            <span class="mini">Leer →</span>
-          </div>
-        </div>
-        <div class="card">
-          <div class="img"></div>
-          <div class="body">
-            <h3>Cómo elegir llantas agrícolas</h3>
-            <p>Tracción, durabilidad y terreno.</p>
-            <span class="mini">Leer →</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+				<div class="copyright">
+					© <span id="year"></span> GMX Prime — Boceto HTML para Tiendanube
+				</div>
+			</div>
+		</footer>
 
-</main>
+		<script>
+			// Simple helpers for the mockup
+			document.getElementById("year").textContent = new Date().getFullYear();
 
-<footer id="contacto">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-card">
-        <b style="font-size:16px;">Contacto</b>
-        <div class="kvs">
-          <div>📍 San Luis Potosí (ejemplo)</div>
-          <div>📞 <a href="tel:+524441449905">+52 444 144 9905</a></div>
-          <div>💬 <a href="#" aria-label="WhatsApp">WhatsApp: +52 444 827 8252</a></div>
-          <div>✉️ <a href="mailto:ventas@gmxprime.com">ventas@gmxprime.com</a></div>
-          <div>🕘 Lun–Vie: 9:00–18:00</div>
-        </div>
-      </div>
+			const menuBtn = document.getElementById("menuBtn");
+			const mobileMenu = document.getElementById("mobileMenu");
+			if (menuBtn) {
+				menuBtn.addEventListener("click", () =>
+					mobileMenu.classList.toggle("show")
+				);
+			}
 
-      <div class="footer-card">
-        <b style="font-size:16px;">Enlaces</b>
-        <div class="links">
-          <a href="#catalogo">Catálogo</a>
-          <a href="#productos">Productos</a>
-          <a href="#blog">Blog</a>
-          <a href="#nosotros">Nosotros</a>
-          <a href="#contacto">Contacto</a>
-        </div>
-      </div>
-
-      <div class="footer-card">
-        <b style="font-size:16px;">Políticas</b>
-        <div class="links">
-          <a href="#">Envíos</a>
-          <a href="#">Cambios y devoluciones</a>
-          <a href="#">Privacidad</a>
-          <a href="#">Términos</a>
-        </div>
-        <div style="margin-top:12px; color:var(--muted); font-size:13px; font-weight:700;">
-          (En Tiendanube estas páginas suelen ser “Páginas” del sitio).
-        </div>
-      </div>
-    </div>
-
-    <div class="copyright">
-      © <span id="year"></span> GMX Prime — Boceto HTML para Tiendanube
-    </div>
-  </div>
-</footer>
-
-<script>
-  // Simple helpers for the mockup
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  const menuBtn = document.getElementById("menuBtn");
-  const mobileMenu = document.getElementById("mobileMenu");
-  if(menuBtn){
-    menuBtn.addEventListener("click", () => mobileMenu.classList.toggle("show"));
-  }
-
-  function fakeSearch(){
-    const a = document.getElementById("ancho").value;
-    const p = document.getElementById("perfil").value;
-    const r = document.getElementById("rin").value;
-    const out = document.getElementById("searchResult");
-    if(!a || !p || !r){
-      out.textContent = "Selecciona ancho, perfil y rin para simular una búsqueda (en Tiendanube se enlaza a colecciones/etiquetas).";
-      return;
-    }
-    out.textContent = `Búsqueda simulada: ${a}/${p}R${r} → aquí podrías redirigir a una colección, por ejemplo /llantas/${a}-${p}-r${r}`;
-  }
-</script>
-
-</body>
+			function fakeSearch() {
+				const a = document.getElementById("ancho").value;
+				const p = document.getElementById("perfil").value;
+				const r = document.getElementById("rin").value;
+				const out = document.getElementById("searchResult");
+				if (!a || !p || !r) {
+					out.textContent =
+						"Selecciona ancho, perfil y rin para simular una búsqueda (en Tiendanube se enlaza a colecciones/etiquetas).";
+					return;
+				}
+				out.textContent = `Búsqueda simulada: ${a}/${p}R${r} → aquí podrías redirigir a una colección, por ejemplo /llantas/${a}-${p}-r${r}`;
+			}
+		</script>
+	</body>
 </html>
