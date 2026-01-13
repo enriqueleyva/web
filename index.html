@@ -235,7 +235,7 @@
 						rgba(7, 11, 20, 0.4) 55%,
 						rgba(7, 11, 20, 0.15) 100%
 					),
-					url("https://gmxprime.com/wp-content/uploads/2024/11/dark-storage-full-big-variety-new-tyres-busy-warehouse.jpg");
+					url("assets/header.png");
 				background-size: cover;
 				transform: scale(1.02);
 			}
@@ -400,8 +400,19 @@
 				transform: translateY(-2px);
 				background: rgba(255, 255, 255, 0.06);
 			}
+
+			.card .img img {
+				width: 100%;
+				height: 100%;
+				/* object-fit: contain; */
+				display: block;
+			}
 			.card .img {
-				height: 110px;
+				height: 150px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				overflow: hidden;
 				background: radial-gradient(
 						220px 150px at 70% 40%,
 						rgba(43, 108, 255, 0.45),
@@ -797,8 +808,8 @@
 						<div>
 							<h2>Busca tu llanta ideal</h2>
 							<p>
-								Bloque clave para Tiendanube: guía a categorías/colecciones (por
-								medida, uso o marca).
+								Encuentra fácilmente la llanta que necesitas según sus
+								características técnicas.
 							</p>
 						</div>
 					</div>
@@ -906,7 +917,9 @@
 							</div>
 						</a>
 						<a class="card" href="#" aria-label="Industriales y OTR">
-							<div class="img"></div>
+							<div class="img">
+								<img src="assets/img/industrial.png" alt="" />
+							</div>
 							<div class="body">
 								<h3>Industrial / OTR</h3>
 								<p>Construcción, minería y trabajo pesado.</p>
@@ -915,7 +928,9 @@
 						</a>
 
 						<a class="card" href="#" aria-label="Montacargas">
-							<div class="img"></div>
+							<div class="img">
+								<img src="assets/img/montacargas.png" alt="" />
+							</div>
 							<div class="body">
 								<h3>Montacargas</h3>
 								<p>Bodegas y operación intensiva.</p>
@@ -923,7 +938,9 @@
 							</div>
 						</a>
 						<a class="card" href="#" aria-label="Rines">
-							<div class="img"></div>
+							<div class="img">
+								<img src="assets/img/rines.png" alt="" />
+							</div>
 							<div class="body">
 								<h3>Rines</h3>
 								<p>Opciones para camión y desempeño.</p>
@@ -931,7 +948,9 @@
 							</div>
 						</a>
 						<a class="card" href="#" aria-label="Razor / ATV">
-							<div class="img"></div>
+							<div class="img">
+								<img src="assets/img/razr.png" alt="" />
+							</div>
 							<div class="body">
 								<h3>Razor / ATV</h3>
 								<p>Off-road y aventura.</p>
@@ -939,7 +958,9 @@
 							</div>
 						</a>
 						<a class="card" href="#" aria-label="Ofertas">
-							<div class="img"></div>
+							<div class="img">
+								<img src="assets/img/ofertas1.png" alt="" />
+							</div>
 							<div class="body">
 								<h3>Ofertas</h3>
 								<p>Promos y liquidaciones (si aplica).</p>
@@ -956,10 +977,7 @@
 					<div class="section-title">
 						<div>
 							<h2>Nuestras marcas</h2>
-							<p>
-								En Tiendanube puede ser carrusel o grid con enlaces a colección
-								por marca.
-							</p>
+							<p></p>
 						</div>
 					</div>
 
@@ -1230,9 +1248,7 @@
 					</div>
 				</div>
 
-				<div class="copyright">
-					© <span id="year"></span> GMX Prime — Boceto HTML para Tiendanube
-				</div>
+				<div class="copyright">© <span id="year"></span> GMX Prime</div>
 			</div>
 		</footer>
 
@@ -1255,10 +1271,10 @@
 				const out = document.getElementById("searchResult");
 				if (!a || !p || !r) {
 					out.textContent =
-						"Selecciona ancho, perfil y rin para simular una búsqueda (en Tiendanube se enlaza a colecciones/etiquetas).";
+						"Selecciona ancho, perfil y rin para simular una búsqueda";
 					return;
 				}
-				out.textContent = `Búsqueda simulada: ${a}/${p}R${r} → aquí podrías redirigir a una colección, por ejemplo /llantas/${a}-${p}-r${r}`;
+				out.textContent = `Búsqueda simulada: ${a}/${p}R${r}`;
 			}
 		</script>
 	</body>
