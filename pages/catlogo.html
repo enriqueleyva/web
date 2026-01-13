@@ -221,6 +221,95 @@
 				max-width: 75ch;
 			}
 
+			.catalog-carousel {
+				margin: 16px 0 18px;
+				border-radius: 22px;
+				border: 1px solid var(--line);
+				overflow: hidden;
+				box-shadow: var(--shadow);
+				background: rgba(255, 255, 255, 0.04);
+				position: relative;
+			}
+			.catalog-carousel::before {
+				content: "";
+				display: block;
+				padding-top: 56.25%;
+			}
+			.catalog-carousel-inner {
+				position: absolute;
+				inset: 0;
+			}
+			.catalog-slide {
+				position: absolute;
+				inset: 0;
+				opacity: 0;
+				transition: opacity 0.6s ease;
+				background-size: cover;
+				background-position: center;
+				transform: scale(1.02);
+			}
+			.catalog-slide.active {
+				opacity: 1;
+			}
+			.catalog-overlay {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+					90deg,
+					rgba(7, 11, 20, 0.9) 0%,
+					rgba(7, 11, 20, 0.35) 55%,
+					rgba(7, 11, 20, 0.1) 100%
+				);
+				pointer-events: none;
+			}
+			.catalog-controls {
+				position: absolute;
+				inset: 0;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				pointer-events: none;
+				padding: 0 18px;
+			}
+			.catalog-control {
+				pointer-events: auto;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 40px;
+				height: 40px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(7, 11, 20, 0.55);
+				color: var(--text);
+				cursor: pointer;
+				transition: 0.2s ease;
+			}
+			.catalog-control:hover {
+				background: rgba(7, 11, 20, 0.7);
+			}
+			.catalog-dots {
+				position: absolute;
+				bottom: 18px;
+				right: 22px;
+				display: flex;
+				gap: 8px;
+				z-index: 2;
+			}
+			.catalog-dot {
+				width: 10px;
+				height: 10px;
+				border-radius: 999px;
+				border: 1px solid rgba(255, 255, 255, 0.45);
+				background: rgba(255, 255, 255, 0.2);
+				cursor: pointer;
+				transition: 0.2s ease;
+			}
+			.catalog-dot.active {
+				background: var(--primary-2);
+				border-color: rgba(255, 255, 255, 0.8);
+			}
+
 			/* Controls */
 			.controls {
 				display: flex;
@@ -644,7 +733,7 @@
 
 		<main id="llantas">
 			<div class="container">
-				<div class="page-hero">
+				<!-- <div class="page-hero">
 					<div class="crumbs" aria-label="breadcrumbs">
 						<a href="gmxprime_tiendanube_boceto.html#inicio">Inicio</a>
 						<span>›</span>
@@ -657,8 +746,67 @@
 						Página tipo “listado” (PLP) para Tiendanube: filtros, ordenamiento,
 						tarjetas con medida y specs clave, y CTA de compra/cotización.
 					</p>
-				</div>
+				</div> -->
 
+				<section class="catalog-carousel" aria-label="Publicidad destacada">
+					<div class="catalog-carousel-inner" aria-hidden="true">
+						<div
+							class="catalog-slide active"
+							style="background-image: url('../assets/header4.png')"
+						></div>
+						<div
+							class="catalog-slide"
+							style="background-image: url('../assets/header5.png')"
+						></div>
+						<div
+							class="catalog-slide"
+							style="background-image: url('../assets/header6.png')"
+						></div>
+						<div
+							class="catalog-slide"
+							style="background-image: url('../assets/header.png')"
+						></div>
+					</div>
+					<div class="catalog-overlay"></div>
+					<div class="catalog-controls">
+						<button class="catalog-control" type="button" data-catalog="prev">
+							‹
+						</button>
+						<button class="catalog-control" type="button" data-catalog="next">
+							›
+						</button>
+					</div>
+					<div
+						class="catalog-dots"
+						role="tablist"
+						aria-label="Banners destacados"
+					>
+						<button
+							class="catalog-dot active"
+							type="button"
+							data-catalog-dot="0"
+							aria-label="Ir a banner 1"
+						></button>
+						<button
+							class="catalog-dot"
+							type="button"
+							data-catalog-dot="1"
+							aria-label="Ir a banner 2"
+						></button>
+						<button
+							class="catalog-dot"
+							type="button"
+							data-catalog-dot="2"
+							aria-label="Ir a banner 3"
+						></button>
+						<button
+							class="catalog-dot"
+							type="button"
+							data-catalog-dot="3"
+							aria-label="Ir a banner 4"
+						></button>
+					</div>
+				</section>
 				<div class="controls" aria-label="Controles de listado">
 					<div
 						style="
@@ -1123,6 +1271,61 @@
 			}
 
 			document.getElementById("sort").addEventListener("change", applyFilters);
+
+			const catalogSlides = Array.from(
+				document.querySelectorAll(".catalog-slide")
+			);
+			const catalogDots = Array.from(document.querySelectorAll(".catalog-dot"));
+			const catalogPrevBtn = document.querySelector("[data-catalog='prev']");
+			const catalogNextBtn = document.querySelector("[data-catalog='next']");
+			let catalogCurrent = 0;
+			let catalogTimer;
+
+			const setCatalogSlide = (index) => {
+				catalogCurrent = (index + catalogSlides.length) % catalogSlides.length;
+				catalogSlides.forEach((slide, i) => {
+					slide.classList.toggle("active", i === catalogCurrent);
+				});
+				catalogDots.forEach((dot, i) => {
+					dot.classList.toggle("active", i === catalogCurrent);
+				});
+			};
+
+			const nextCatalogSlide = () => setCatalogSlide(catalogCurrent + 1);
+			const prevCatalogSlide = () => setCatalogSlide(catalogCurrent - 1);
+
+			const startCatalogCarousel = () => {
+				if (catalogTimer) {
+					clearInterval(catalogTimer);
+				}
+				catalogTimer = setInterval(nextCatalogSlide, 5000);
+			};
+
+			if (catalogSlides.length > 1) {
+				startCatalogCarousel();
+
+				if (catalogNextBtn) {
+					catalogNextBtn.addEventListener("click", () => {
+						nextCatalogSlide();
+						startCatalogCarousel();
+					});
+				}
+
+				if (catalogPrevBtn) {
+					catalogPrevBtn.addEventListener("click", () => {
+						prevCatalogSlide();
+						startCatalogCarousel();
+					});
+				}
+
+				catalogDots.forEach((dot) => {
+					dot.addEventListener("click", () => {
+						const index = Number(dot.dataset.catalogDot);
+						setCatalogSlide(Number.isNaN(index) ? 0 : index);
+						startCatalogCarousel();
+					});
+				});
+			}
 
 			// Initial render
 			resetFilters();
