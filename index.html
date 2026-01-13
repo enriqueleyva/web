@@ -229,15 +229,81 @@
 			.hero-media {
 				position: absolute;
 				inset: 0;
-				background: linear-gradient(
-						90deg,
-						rgba(7, 11, 20, 0.92) 0%,
-						rgba(7, 11, 20, 0.4) 55%,
-						rgba(7, 11, 20, 0.15) 100%
-					),
-					url("assets/header.png");
+				overflow: hidden;
+			}
+			.hero-carousel {
+				position: absolute;
+				inset: 0;
+			}
+			.hero-slide {
+				position: absolute;
+				inset: 0;
+				opacity: 0;
+				transition: opacity 0.6s ease;
 				background-size: cover;
+				background-position: center;
 				transform: scale(1.02);
+			}
+			.hero-slide.active {
+				opacity: 1;
+			}
+			.hero-overlay {
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(
+					90deg,
+					rgba(7, 11, 20, 0.92) 0%,
+					rgba(7, 11, 20, 0.4) 55%,
+					rgba(7, 11, 20, 0.15) 100%
+				);
+				pointer-events: none;
+			}
+			.hero-controls {
+				position: absolute;
+				inset: 0;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				pointer-events: none;
+				padding: 0 18px;
+			}
+			.hero-control {
+				pointer-events: auto;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 40px;
+				height: 40px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(7, 11, 20, 0.55);
+				color: var(--text);
+				cursor: pointer;
+				transition: 0.2s ease;
+			}
+			.hero-control:hover {
+				background: rgba(7, 11, 20, 0.7);
+			}
+			.hero-dots {
+				position: absolute;
+				bottom: 18px;
+				right: 22px;
+				display: flex;
+				gap: 8px;
+				z-index: 2;
+			}
+			.hero-dot {
+				width: 10px;
+				height: 10px;
+				border-radius: 999px;
+				border: 1px solid rgba(255, 255, 255, 0.45);
+				background: rgba(255, 255, 255, 0.2);
+				cursor: pointer;
+				transition: 0.2s ease;
+			}
+			.hero-dot.active {
+				background: var(--primary-2);
+				border-color: rgba(255, 255, 255, 0.8);
 			}
 			.hero-content {
 				position: relative;
@@ -777,7 +843,65 @@
 			<section class="hero" id="inicio">
 				<div class="container">
 					<div class="hero-card">
-						<div class="hero-media" aria-hidden="true"></div>
+						<div class="hero-media" aria-hidden="true">
+							<div class="hero-carousel">
+								<div
+									class="hero-slide active"
+									style="background-image: url('assets/header.png')"
+								></div>
+								<div
+									class="hero-slide"
+									style="background-image: url('assets/header1.png')"
+								></div>
+								<div
+									class="hero-slide"
+									style="background-image: url('assets/header2.png')"
+								></div>
+								<div
+									class="hero-slide"
+									style="background-image: url('assets/header3.png')"
+								></div>
+							</div>
+							<div class="hero-overlay"></div>
+							<div class="hero-controls">
+								<button class="hero-control" type="button" data-carousel="prev">
+									‹
+								</button>
+								<button class="hero-control" type="button" data-carousel="next">
+									›
+								</button>
+							</div>
+							<div
+								class="hero-dots"
+								role="tablist"
+								aria-label="Imágenes destacadas"
+							>
+								<button
+									class="hero-dot active"
+									type="button"
+									data-carousel-dot="0"
+									aria-label="Ir a imagen 1"
+								></button>
+								<button
+									class="hero-dot"
+									type="button"
+									data-carousel-dot="1"
+									aria-label="Ir a imagen 2"
+								></button>
+								<button
+									class="hero-dot"
+									type="button"
+									data-carousel-dot="2"
+									aria-label="Ir a imagen 3"
+								></button>
+								<button
+									class="hero-dot"
+									type="button"
+									data-carousel-dot="3"
+									aria-label="Ir a imagen 4"
+								></button>
+							</div>
+						</div>
 						<div class="hero-content">
 							<div class="pill">Importación • Comercialización • Mayoreo</div>
 							<h1>Impulsamos tu camino</h1>
@@ -1275,6 +1399,59 @@
 					return;
 				}
 				out.textContent = `Búsqueda simulada: ${a}/${p}R${r}`;
+			}
+
+			const slides = Array.from(document.querySelectorAll(".hero-slide"));
+			const dots = Array.from(document.querySelectorAll(".hero-dot"));
+			const prevBtn = document.querySelector("[data-carousel='prev']");
+			const nextBtn = document.querySelector("[data-carousel='next']");
+			let currentSlide = 0;
+			let carouselTimer;
+
+			const setSlide = (index) => {
+				currentSlide = (index + slides.length) % slides.length;
+				slides.forEach((slide, i) => {
+					slide.classList.toggle("active", i === currentSlide);
+				});
+				dots.forEach((dot, i) => {
+					dot.classList.toggle("active", i === currentSlide);
+				});
+			};
+
+			const nextSlide = () => setSlide(currentSlide + 1);
+			const prevSlide = () => setSlide(currentSlide - 1);
+
+			const startCarousel = () => {
+				if (carouselTimer) {
+					clearInterval(carouselTimer);
+				}
+				carouselTimer = setInterval(nextSlide, 5000);
+			};
+
+			if (slides.length > 1) {
+				startCarousel();
+
+				if (nextBtn) {
+					nextBtn.addEventListener("click", () => {
+						nextSlide();
+						startCarousel();
+					});
+				}
+
+				if (prevBtn) {
+					prevBtn.addEventListener("click", () => {
+						prevSlide();
+						startCarousel();
+					});
+				}
+
+				dots.forEach((dot) => {
+					dot.addEventListener("click", () => {
+						const index = Number(dot.dataset.carouselDot);
+						setSlide(Number.isNaN(index) ? 0 : index);
+						startCarousel();
+					});
+				});
 			}
 		</script>
 	</body>
