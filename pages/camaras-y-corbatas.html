@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>GMX Prime — Cámaras y Corbatas</title>
+		<style>
+			:root {
+				--bg: #0b1220;
+				--text: #eaf0ff;
+				--muted: #b9c5e6;
+				--line: rgba(255, 255, 255, 0.1);
+				--accent-rgb: 168, 85, 247;
+				--shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+				--radius: 18px;
+				--max: 1120px;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				font-family:
+					ui-sans-serif,
+					system-ui,
+					-apple-system,
+					Segoe UI,
+					Roboto,
+					Helvetica,
+					Arial;
+				background:
+					radial-gradient(
+						1200px 700px at 15% 0%,
+						rgba(var(--accent-rgb), 0.16),
+						transparent 55%
+					),
+					radial-gradient(
+						900px 600px at 95% 10%,
+						rgba(var(--accent-rgb), 0.14),
+						transparent 50%
+					),
+					linear-gradient(180deg, #070b14, #0b1220 35%, #070b14);
+				color: var(--text);
+				line-height: 1.45;
+			}
+			.brand-image {
+				height: 64px;
+				width: auto;
+			}
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+			.container {
+				width: min(var(--max), calc(100% - 32px));
+				margin: 0 auto;
+			}
+
+			/* Header */
+			header {
+				position: sticky;
+				top: 0;
+				z-index: 50;
+				backdrop-filter: blur(10px);
+				background: rgba(11, 18, 32, 0.55);
+				border-bottom: 1px solid var(--line);
+			}
+			.topbar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 14px 0;
+				gap: 14px;
+			}
+			.brand {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				min-width: 180px;
+			}
+			nav {
+				display: flex;
+				align-items: center;
+				gap: 18px;
+			}
+			nav a {
+				color: var(--muted);
+				font-weight: 700;
+				font-size: 14px;
+				padding: 10px 10px;
+				border-radius: 12px;
+				transition: 0.15s ease;
+			}
+			nav a:hover,
+			nav a.active {
+				color: var(--text);
+				background: rgba(255, 255, 255, 0.08);
+				border: 1px solid var(--line);
+			}
+			.header-actions {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+			.cta {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 10px 14px;
+				border-radius: 999px;
+				background: linear-gradient(
+					135deg,
+					rgba(var(--accent-rgb), 0.92),
+					rgba(var(--accent-rgb), 0.72)
+				);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				font-weight: 900;
+				font-size: 14px;
+				white-space: nowrap;
+				box-shadow: 0 16px 35px rgba(var(--accent-rgb), 0.2);
+			}
+
+			/* Hero */
+			main {
+				padding: 24px 0 32px;
+			}
+			.page-hero {
+				border: 1px solid var(--line);
+				border-radius: 24px;
+				overflow: hidden;
+				background:
+					radial-gradient(
+						900px 500px at 25% 35%,
+						rgba(var(--accent-rgb), 0.3),
+						transparent 58%
+					),
+					radial-gradient(
+						900px 500px at 80% 30%,
+						rgba(var(--accent-rgb), 0.18),
+						transparent 55%
+					),
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.06),
+						rgba(255, 255, 255, 0.02)
+					);
+				box-shadow: var(--shadow);
+				padding: 20px 22px;
+			}
+			.crumbs {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				color: rgba(234, 240, 255, 0.75);
+				font-weight: 900;
+				font-size: 12px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+			}
+			.crumbs span {
+				color: rgba(234, 240, 255, 0.4);
+			}
+			h1 {
+				margin: 12px 0 8px;
+				font-size: 32px;
+				letter-spacing: -0.02em;
+				line-height: 1.1;
+			}
+			.lead {
+				margin: 0;
+				color: var(--muted);
+				font-weight: 800;
+				font-size: 14px;
+				max-width: 75ch;
+			}
+			.accent-tag {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 6px 12px;
+				border-radius: 999px;
+				border: 1px solid rgba(var(--accent-rgb), 0.5);
+				background: rgba(var(--accent-rgb), 0.12);
+				color: #f8f9ff;
+				font-weight: 900;
+				font-size: 12px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+			}
+
+			.highlight-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 16px;
+				margin: 20px 0 26px;
+			}
+			.highlight-card {
+				border: 1px solid var(--line);
+				border-radius: 20px;
+				padding: 18px;
+				background: rgba(255, 255, 255, 0.04);
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+				display: grid;
+				gap: 10px;
+			}
+			.highlight-card h3 {
+				margin: 0;
+				font-size: 18px;
+			}
+			.highlight-card p {
+				margin: 0;
+				color: var(--muted);
+				font-weight: 700;
+				font-size: 13px;
+			}
+			.highlight-list {
+				margin: 0;
+				padding-left: 16px;
+				color: rgba(234, 240, 255, 0.85);
+				font-weight: 700;
+				font-size: 13px;
+			}
+
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 14px;
+			}
+			.product {
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				border-radius: var(--radius);
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				min-height: 320px;
+			}
+			.product:hover {
+				transform: translateY(-2px);
+				background: rgba(255, 255, 255, 0.06);
+			}
+			.p-img {
+				height: 210px;
+				background:
+					radial-gradient(
+						260px 180px at 70% 40%,
+						rgba(var(--accent-rgb), 0.35),
+						transparent 60%
+					),
+					radial-gradient(
+						240px 180px at 30% 65%,
+						rgba(var(--accent-rgb), 0.22),
+						transparent 55%
+					),
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.06),
+						rgba(255, 255, 255, 0.02)
+					);
+				position: relative;
+				background-image: url("../assets/img/camaras_corbatas.png");
+				background-size: cover;
+				background-position: center;
+			}
+			.p-badge {
+				position: absolute;
+				top: 12px;
+				left: 12px;
+				padding: 7px 10px;
+				border-radius: 999px;
+				border: 1px solid rgba(var(--accent-rgb), 0.6);
+				background: rgba(var(--accent-rgb), 0.2);
+				color: rgba(255, 237, 237, 0.95);
+				font-weight: 1000;
+				font-size: 11px;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+			.p-body {
+				padding: 12px 12px 14px;
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				height: 100%;
+			}
+			.p-body b {
+				font-size: 14px;
+			}
+			.meta {
+				color: var(--muted);
+				font-weight: 900;
+				font-size: 12px;
+			}
+			.specs {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+			}
+			.spec {
+				padding: 6px 10px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				color: rgba(234, 240, 255, 0.78);
+				font-weight: 1000;
+				font-size: 11px;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+			.price-row {
+				margin-top: auto;
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+				gap: 10px;
+				padding-top: 6px;
+			}
+			.price {
+				font-weight: 1200;
+				font-size: 16px;
+			}
+			.price small {
+				display: block;
+				color: rgba(234, 240, 255, 0.55);
+				font-weight: 1000;
+				font-size: 11px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				margin-top: 2px;
+			}
+			.actions {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 10px;
+				margin-top: 10px;
+			}
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 10px 12px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.06);
+				font-weight: 1000;
+				color: var(--text);
+				cursor: pointer;
+				transition: 0.15s ease;
+			}
+			.btn.primary {
+				background: linear-gradient(
+					135deg,
+					rgba(var(--accent-rgb), 0.96),
+					rgba(var(--accent-rgb), 0.76)
+				);
+				border-color: rgba(255, 255, 255, 0.12);
+				box-shadow: 0 16px 35px rgba(var(--accent-rgb), 0.2);
+			}
+			.btn:hover {
+				background: rgba(255, 255, 255, 0.1);
+			}
+
+			footer {
+				margin-top: 26px;
+				border-top: 1px solid var(--line);
+				background: rgba(7, 11, 20, 0.55);
+				padding: 26px 0 30px;
+			}
+			.footer-grid {
+				display: grid;
+				grid-template-columns: 1.2fr 0.8fr;
+				gap: 18px;
+			}
+			.footer-card {
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.03);
+				border-radius: 24px;
+				padding: 16px;
+			}
+			.kvs {
+				display: grid;
+				gap: 10px;
+				margin-top: 10px;
+				color: var(--muted);
+				font-weight: 900;
+				font-size: 13px;
+			}
+			.links {
+				display: grid;
+				gap: 8px;
+				margin-top: 8px;
+				color: var(--muted);
+				font-weight: 900;
+				font-size: 13px;
+			}
+			.copyright {
+				text-align: center;
+				color: rgba(234, 240, 255, 0.65);
+				font-weight: 900;
+				font-size: 12px;
+				margin-top: 18px;
+			}
+
+			@media (max-width: 1060px) {
+				nav {
+					display: none;
+				}
+				.highlight-grid {
+					grid-template-columns: 1fr;
+				}
+				.grid {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.footer-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+			@media (max-width: 520px) {
+				.grid {
+					grid-template-columns: 1fr;
+				}
+				.topbar {
+					flex-wrap: wrap;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<div class="topbar">
+					<a class="brand" href="../index.html#inicio" aria-label="GMX Prime">
+						<div>
+							<img
+								src="https://gmxprime.com/wp-content/uploads/2019/12/cropped-cropped-logo-gmxtw.png"
+								alt="GMX Prime"
+								class="brand-image"
+							/>
+						</div>
+					</a>
+
+					<nav aria-label="Navegación principal">
+						<a href="../index.html#inicio">Inicio</a>
+						<a class="active" href="../index.html#catalogo">Catálogo</a>
+						<a href="../index.html#estilo-vida">Estilo de vida</a>
+						<a href="../index.html#blog">Blog</a>
+						<a href="../index.html#contacto">Contacto</a>
+					</nav>
+
+					<div class="header-actions">
+						<a class="cta" href="../index.html#contacto">Cotizar / WhatsApp</a>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<main id="camaras-y-corbatas">
+			<div class="container">
+				<section class="page-hero">
+					<div class="crumbs" aria-label="breadcrumbs">
+						<a href="../index.html#inicio">Inicio</a>
+						<span>›</span>
+						<a href="../index.html#catalogo">Catálogo</a>
+						<span>›</span>
+						<span>Cámaras y Corbatas</span>
+					</div>
+					<span class="accent-tag">Familia Cámaras y Corbatas</span>
+					<h1>Cámaras y Corbatas</h1>
+					<p class="lead">
+						Soluciones de cámaras y corbatas para operación profesional: mejor sellado, ajuste preciso y mayor seguridad en aplicaciones de carga y uso mixto.
+					</p>
+				</section>
+
+				<section class="highlight-grid" aria-label="Destacados">
+					<article class="highlight-card">
+						<h3>Cámaras reforzadas</h3>
+						<p>
+							Diseñadas para mantener presión estable y reducir riesgo de fugas en jornadas exigentes.
+						</p>
+						<ul class="highlight-list">
+							<li>Compuesto de caucho con alta resistencia térmica.</li>
+							<li>Compatibles con múltiples medidas de rin.</li>
+							<li>Ideal para rutas urbanas y regionales.</li>
+						</ul>
+					</article>
+					<article class="highlight-card">
+						<h3>Corbatas de alto desempeño</h3>
+						<p>
+							Protegen la cámara y mejoran el acoplamiento interno para una operación más confiable.
+						</p>
+						<ul class="highlight-list">
+							<li>Estructura flexible para montaje seguro.</li>
+							<li>Mayor estabilidad en aplicaciones de carga.</li>
+							<li>Durabilidad superior frente a desgaste interno.</li>
+						</ul>
+					</article>
+				</section>
+
+				<section class="grid" aria-label="Modelos Cámaras y Corbatas">
+					<article class="product">
+						<div class="p-img">
+							<span class="p-badge">Cámara</span>
+						</div>
+						<div class="p-body">
+							<b>Cámara Prime Road 16</b>
+							<span class="meta">Uso mixto · Rin 16"</span>
+							<div class="specs">
+								<span class="spec">Compatibilidad 7.50R16</span>
+								<span class="spec">Refuerzo multicapa</span>
+								<span class="spec">Válvula TR13</span>
+							</div>
+							<div class="price-row">
+								<div class="price">
+									$590
+									<small>precio sugerido</small>
+								</div>
+								<button class="btn" type="button">Detalles</button>
+							</div>
+							<div class="actions">
+								<button class="btn primary" type="button">Cotizar</button>
+								<button class="btn" type="button">Comparar</button>
+							</div>
+						</div>
+					</article>
+
+					<article class="product">
+						<div class="p-img">
+							<span class="p-badge">Cámara</span>
+						</div>
+						<div class="p-body">
+							<b>Cámara Prime Seal 17</b>
+							<span class="meta">Uso comercial ligero · Rin 17"</span>
+							<div class="specs">
+								<span class="spec">Compatibilidad 8.25R17</span>
+								<span class="spec">Compuesto antifuga</span>
+								<span class="spec">Válvula TR15</span>
+							</div>
+							<div class="price-row">
+								<div class="price">
+									$650
+									<small>precio sugerido</small>
+								</div>
+								<button class="btn" type="button">Detalles</button>
+							</div>
+							<div class="actions">
+								<button class="btn primary" type="button">Cotizar</button>
+								<button class="btn" type="button">Comparar</button>
+							</div>
+						</div>
+					</article>
+
+					<article class="product">
+						<div class="p-img">
+							<span class="p-badge">Corbata</span>
+						</div>
+						<div class="p-body">
+							<b>Corbata Prime Guard 22.5</b>
+							<span class="meta">Transporte regional · Rin 22.5"</span>
+							<div class="specs">
+								<span class="spec">Compatibilidad 11R22.5</span>
+								<span class="spec">Barrera anti fricción</span>
+								<span class="spec">Montaje rápido</span>
+							</div>
+							<div class="price-row">
+								<div class="price">
+									$480
+									<small>precio sugerido</small>
+								</div>
+								<button class="btn" type="button">Detalles</button>
+							</div>
+							<div class="actions">
+								<button class="btn primary" type="button">Cotizar</button>
+								<button class="btn" type="button">Comparar</button>
+							</div>
+						</div>
+					</article>
+
+					<article class="product">
+						<div class="p-img">
+							<span class="p-badge">Corbata</span>
+						</div>
+						<div class="p-body">
+							<b>Kit Cámara + Corbata Fleet</b>
+							<span class="meta">Paquete flotilla · Multi-rin</span>
+							<div class="specs">
+								<span class="spec">Desde rin 15" hasta 24"</span>
+								<span class="spec">Instalación asistida</span>
+								<span class="spec">Stock inmediato</span>
+							</div>
+							<div class="price-row">
+								<div class="price">
+									$990
+									<small>precio sugerido</small>
+								</div>
+								<button class="btn" type="button">Detalles</button>
+							</div>
+							<div class="actions">
+								<button class="btn primary" type="button">Cotizar</button>
+								<button class="btn" type="button">Comparar</button>
+							</div>
+						</div>
+					</article>
+				</section>
+			</div>
+		</main>
+
+		<footer>
+			<div class="container">
+				<div class="footer-grid">
+					<div class="footer-card">
+						<b>Cámaras y Corbatas GMX Prime</b>
+						<div class="kvs">
+							<span>Asesoría de compatibilidad por aplicación.</span>
+							<span>Recomendaciones de instalación y seguridad.</span>
+							<span>Cobertura nacional para entrega rápida.</span>
+						</div>
+					</div>
+					<div class="footer-card">
+						<b>Contacto rápido</b>
+						<div class="links">
+							<span>WhatsApp: +52 55 0000 0000</span>
+							<span>ventas@gmxprime.com</span>
+							<span>Lun - Sáb · 9:00 a 19:00</span>
+						</div>
+					</div>
+				</div>
+				<div class="copyright">GMX Prime © 2024. Familia Cámaras y Corbatas.</div>
+			</div>
+		</footer>
+	</body>
+</html>
