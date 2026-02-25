@@ -21,9 +21,16 @@
 			}
 			body {
 				margin: 0;
-				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-					Helvetica, Arial;
-				background: radial-gradient(
+				font-family:
+					ui-sans-serif,
+					system-ui,
+					-apple-system,
+					Segoe UI,
+					Roboto,
+					Helvetica,
+					Arial;
+				background:
+					radial-gradient(
 						1200px 700px at 15% 0%,
 						rgba(43, 108, 255, 0.2),
 						transparent 55%
@@ -176,7 +183,8 @@
 				border: 1px solid var(--line);
 				border-radius: 24px;
 				overflow: hidden;
-				background: radial-gradient(
+				background:
+					radial-gradient(
 						900px 500px at 25% 35%,
 						rgba(43, 108, 255, 0.26),
 						transparent 58%
@@ -449,8 +457,8 @@
 			.check-pill {
 				padding: 4px 8px;
 				border-radius: 999px;
-				border: 1px solid rgba(255,255,255,0.14);
-				background: rgba(255,255,255,0.08);
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				background: rgba(255, 255, 255, 0.08);
 				font-size: 10px;
 				letter-spacing: 0.03em;
 				text-transform: uppercase;
@@ -504,7 +512,9 @@
 				border-radius: var(--radius);
 				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
 				overflow: hidden;
-				transition: transform 0.15s ease, background 0.15s ease;
+				transition:
+					transform 0.15s ease,
+					background 0.15s ease;
 				display: flex;
 				flex-direction: column;
 				min-height: 330px;
@@ -515,7 +525,8 @@
 			}
 			.p-img {
 				height: 220px;
-				background: radial-gradient(
+				background:
+					radial-gradient(
 						280px 190px at 65% 40%,
 						rgba(106, 168, 255, 0.3),
 						transparent 60%
@@ -749,10 +760,7 @@
 					<div class="header-actions">
 						<div class="search" role="search" aria-label="Buscar">
 							<span aria-hidden="true">🔎</span>
-							<input
-								type="search"
-								placeholder="Buscar rin, estilo, marca..."
-							/>
+							<input type="search" placeholder="Buscar rin, estilo, marca..." />
 						</div>
 						<button class="icon-btn" aria-label="Carrito">🛒</button>
 						<a class="cta" href="#contacto" aria-label="Cotizar por WhatsApp"
@@ -783,19 +791,19 @@
 					<div class="catalog-carousel-inner" aria-hidden="true">
 						<div
 							class="catalog-slide active"
-							style="background-image: url('../assets/header4.png')"
+							style="background-image: url(&quot;../assets/header4.png&quot;)"
 						></div>
 						<div
 							class="catalog-slide"
-							style="background-image: url('../assets/header5.png')"
+							style="background-image: url(&quot;../assets/header5.png&quot;)"
 						></div>
 						<div
 							class="catalog-slide"
-							style="background-image: url('../assets/header6.png')"
+							style="background-image: url(&quot;../assets/header6.png&quot;)"
 						></div>
 						<div
 							class="catalog-slide"
-							style="background-image: url('../assets/header.png')"
+							style="background-image: url(&quot;../assets/header.png&quot;)"
 						></div>
 					</div>
 					<div class="catalog-overlay"></div>
@@ -887,11 +895,15 @@
 							<div class="filter-group">
 								<div class="filter-title">Aplicación</div>
 								<label class="check"
-									><span>Auto / Sedán <small class="check-pill">Popular</small></span
+									><span
+										>Auto / Sedán
+										<small class="check-pill">Popular</small></span
 									><input data-filter="uso" type="checkbox" value="sedan"
 								/></label>
 								<label class="check"
-									><span>SUV / Crossover <small class="check-pill">Nuevo</small></span
+									><span
+										>SUV / Crossover
+										<small class="check-pill">Nuevo</small></span
 									><input data-filter="uso" type="checkbox" value="suv"
 								/></label>
 								<label class="check"
@@ -905,9 +917,15 @@
 							</div>
 
 							<div class="filter-group">
-								<div class="filter-title">Marca <small class="filter-title-pill">Color de marca: Bronce</small></div>
+								<div class="filter-title">
+									Marca
+									<small class="filter-title-pill"
+										>Color de marca: Bronce</small
+									>
+								</div>
 								<label class="check"
-									><span>KMC <small class="check-pill brand">Bronce</small></span
+									><span
+										>KMC <small class="check-pill brand">Bronce</small></span
 									><input data-filter="marca" type="checkbox" value="KMC"
 								/></label>
 								<label class="check"
@@ -919,8 +937,12 @@
 									><input data-filter="marca" type="checkbox" value="Method"
 								/></label>
 								<label class="check"
-									><span>Black Rhino <small class="check-pill">Satin</small></span
-									><input data-filter="marca" type="checkbox" value="Black Rhino"
+									><span
+										>Black Rhino <small class="check-pill">Satin</small></span
+									><input
+										data-filter="marca"
+										type="checkbox"
+										value="Black Rhino"
 								/></label>
 							</div>
 
@@ -1202,8 +1224,8 @@
             <div>
               <b>${p.marca} — ${p.modelo}</b>
               <div class="meta">${p.medida}${
-							p.indice ? " • " + p.indice : ""
-						}</div>
+								p.indice ? " • " + p.indice : ""
+							}</div>
             </div>
             <div class="specs">${specs}</div>
             <div class="price-row">
@@ -1220,14 +1242,14 @@
             </div>
           </div>
         </article>
-      `
+      `,
 					);
 				}
 			}
 
 			function selected(name) {
 				return Array.from(
-					document.querySelectorAll(`input[data-filter="${name}"]:checked`)
+					document.querySelectorAll(`input[data-filter="${name}"]:checked`),
 				).map((i) => i.value);
 			}
 
@@ -1298,7 +1320,7 @@
 			document.getElementById("sort").addEventListener("change", applyFilters);
 
 			const catalogSlides = Array.from(
-				document.querySelectorAll(".catalog-slide")
+				document.querySelectorAll(".catalog-slide"),
 			);
 			const catalogDots = Array.from(document.querySelectorAll(".catalog-dot"));
 			const catalogPrevBtn = document.querySelector("[data-catalog='prev']");
