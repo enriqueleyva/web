@@ -443,6 +443,43 @@
 			.check input {
 				accent-color: var(--accent);
 			}
+			.check-pill {
+				display: inline-flex;
+				align-items: center;
+				padding: 4px 9px;
+				border-radius: 999px;
+				font-size: 11px;
+				font-weight: 1000;
+				letter-spacing: 0.04em;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+			}
+			.family-dot {
+				width: 9px;
+				height: 9px;
+				border-radius: 999px;
+				display: inline-block;
+				margin-right: 8px;
+			}
+			.family-performance {
+				background: rgba(255, 92, 142, 0.22);
+				color: #ffc4da;
+			}
+			.family-performance .family-dot { background: #ff5c8e; }
+			.family-touring {
+				background: rgba(106, 168, 255, 0.22);
+				color: #c7ddff;
+			}
+			.family-touring .family-dot { background: #6aa8ff; }
+			.family-carga {
+				background: rgba(255, 196, 71, 0.2);
+				color: #ffe7a6;
+			}
+			.family-carga .family-dot { background: #ffc447; }
+			.family-terreno {
+				background: rgba(33, 195, 163, 0.2);
+				color: #b7f0e2;
+			}
+			.family-terreno .family-dot { background: #21c3a3; }
 
 			.range {
 				display: grid;
@@ -894,6 +931,26 @@
 							</div>
 
 							<div class="filter-group">
+								<div class="filter-title">Familia</div>
+								<label class="check"
+									><span class="check-pill family-performance"><span class="family-dot"></span>Performance</span
+									><input data-filter="familia" type="checkbox" value="performance"
+								/></label>
+								<label class="check"
+									><span class="check-pill family-touring"><span class="family-dot"></span>Touring</span
+									><input data-filter="familia" type="checkbox" value="touring"
+								/></label>
+								<label class="check"
+									><span class="check-pill family-carga"><span class="family-dot"></span>Carga</span
+									><input data-filter="familia" type="checkbox" value="carga"
+								/></label>
+								<label class="check"
+									><span class="check-pill family-terreno"><span class="family-dot"></span>Terreno</span
+									><input data-filter="familia" type="checkbox" value="terreno"
+								/></label>
+							</div>
+
+							<div class="filter-group">
 								<div class="filter-title">Rin</div>
 								<label class="check"
 									><span>15</span
@@ -1055,6 +1112,7 @@
 				{
 					marca: "Sunshine",
 					modelo: "RoadPro",
+					familia: "performance",
 					medida: "205/55R16",
 					rin: "16",
 					uso: "pasajero",
@@ -1065,6 +1123,7 @@
 				{
 					marca: "Sunshine",
 					modelo: "CityMax",
+					familia: "touring",
 					medida: "195/65R15",
 					rin: "15",
 					uso: "pasajero",
@@ -1075,6 +1134,7 @@
 				{
 					marca: "Marca 2",
 					modelo: "TruckLine",
+					familia: "carga",
 					medida: "11R22.5",
 					rin: "22.5",
 					uso: "camion",
@@ -1085,6 +1145,7 @@
 				{
 					marca: "Marca 3",
 					modelo: "AgriTraction",
+					familia: "terreno",
 					medida: "Tractor (ej.)",
 					rin: "18",
 					uso: "agricola",
@@ -1095,6 +1156,7 @@
 				{
 					marca: "Marca 4",
 					modelo: "OTR Tough",
+					familia: "terreno",
 					medida: "Industrial (ej.)",
 					rin: "22.5",
 					uso: "otr",
@@ -1105,6 +1167,7 @@
 				{
 					marca: "Marca 2",
 					modelo: "SportEdge",
+					familia: "performance",
 					medida: "225/45R17",
 					rin: "17",
 					uso: "pasajero",
@@ -1115,6 +1178,7 @@
 				{
 					marca: "Sunshine",
 					modelo: "AllTerrain",
+					familia: "terreno",
 					medida: "235/65R17",
 					rin: "17",
 					uso: "pasajero",
@@ -1125,6 +1189,7 @@
 				{
 					marca: "Marca 3",
 					modelo: "VanPro",
+					familia: "touring",
 					medida: "215/60R16",
 					rin: "16",
 					uso: "pasajero",
@@ -1135,6 +1200,7 @@
 				{
 					marca: "Marca 4",
 					modelo: "FleetSteer",
+					familia: "carga",
 					medida: "295/80R22.5",
 					rin: "22.5",
 					uso: "camion",
@@ -1147,6 +1213,7 @@
 			const grid = document.getElementById("productGrid");
 			const resultsCount = document.getElementById("resultsCount");
 			const activeFilters = document.getElementById("activeFilters");
+			const familyLabels = { performance: "Performance", touring: "Touring", carga: "Carga", terreno: "Terreno" };
 
 			function money(n) {
 				if (!n) return "Cotizar";
@@ -1164,6 +1231,9 @@
 					const badgeClass = p.disp === "Disponible" ? "ok" : "low";
 					const badge = `<span class="p-badge ${badgeClass}">${p.disp}</span>`;
 					const specs = [
+						p.familia
+							? `<span class="spec check-pill family-${p.familia}">${familyLabels[p.familia] || p.familia}</span>`
+							: "",
 						p.rin ? `<span class="spec">Rin: ${p.rin}</span>` : "",
 						p.indice ? `<span class="spec">Índice: ${p.indice}</span>` : "",
 						`<span class="spec">Uso: ${p.uso}</span>`,
@@ -1209,6 +1279,7 @@
 			function applyFilters() {
 				const uso = selected("uso");
 				const marca = selected("marca");
+				const familia = selected("familia");
 				const rin = selected("rin");
 				const minP =
 					document.getElementById("minPrice").value === ""
@@ -1223,6 +1294,7 @@
 				let list = products.filter((p) => {
 					if (uso.length && !uso.includes(p.uso)) return false;
 					if (marca.length && !marca.includes(p.marca)) return false;
+					if (familia.length && !familia.includes(p.familia)) return false;
 					if (rin.length && !rin.includes(p.rin)) return false;
 
 					const price = p.precio || 0;
@@ -1245,6 +1317,7 @@
 				const parts = [];
 				uso.forEach((v) => parts.push(`Uso: ${v}`));
 				marca.forEach((v) => parts.push(`Marca: ${v}`));
+				familia.forEach((v) => parts.push(`Familia: ${familyLabels[v] || v}`));
 				rin.forEach((v) => parts.push(`Rin: ${v}`));
 				if (minP != null) parts.push(`Min: ${minP}`);
 				if (maxP != null) parts.push(`Max: ${maxP}`);
