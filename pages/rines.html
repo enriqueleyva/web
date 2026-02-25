@@ -12,6 +12,8 @@
 				--primary: #b87333;
 				--primary-2: #d89a5b;
 				--accent: #f2b26f;
+				--family-color: #7c3aed;
+				--family-color-soft: rgba(124, 58, 237, 0.25);
 				--shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
 				--radius: 18px;
 				--max: 1120px;
@@ -427,6 +429,13 @@
 				font-weight: 1000;
 				font-size: 13px;
 				margin-bottom: 10px;
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+			}
+			.filter-title .check-pill {
+				font-size: 9px;
+				padding: 3px 7px;
 			}
 			.check {
 				display: flex;
@@ -469,6 +478,11 @@
 				border-color: rgba(184, 115, 51, 0.78);
 				color: #ffd7b0;
 			}
+			.check-pill.family {
+				background: var(--family-color-soft);
+				border-color: rgba(167, 139, 250, 0.95);
+				color: #f3e8ff;
+			}
 			.filter-title-pill {
 				margin-left: 6px;
 				padding: 4px 8px;
@@ -479,6 +493,36 @@
 				font-size: 10px;
 				text-transform: uppercase;
 				letter-spacing: 0.04em;
+			}
+			.filter-title-pill.family {
+				border-color: rgba(167, 139, 250, 0.95);
+				background: var(--family-color-soft);
+				color: #f3e8ff;
+			}
+			#activeFilters {
+				display: none;
+				gap: 8px;
+				flex-wrap: wrap;
+				padding: 0;
+				border: none;
+				background: transparent;
+			}
+			.active-filter-pill {
+				display: inline-flex;
+				align-items: center;
+				padding: 7px 10px;
+				border-radius: 999px;
+				border: 1px solid rgba(255, 255, 255, 0.18);
+				background: rgba(255, 255, 255, 0.08);
+				color: rgba(234, 240, 255, 0.92);
+				font-size: 11px;
+				font-weight: 1000;
+				text-transform: uppercase;
+				letter-spacing: 0.04em;
+			}
+			.active-filter-pill.family {
+				border-color: rgba(167, 139, 250, 0.9);
+				background: var(--family-color-soft);
 			}
 			.check input {
 				accent-color: var(--accent);
@@ -856,7 +900,7 @@
 						"
 					>
 						<div class="pill"><span id="resultsCount">0</span> resultados</div>
-						<div class="pill" id="activeFilters" style="display: none"></div>
+						<div class="pill" id="activeFilters"></div>
 					</div>
 
 					<div
@@ -918,27 +962,41 @@
 
 							<div class="filter-group">
 								<div class="filter-title">
-									Marca
-									<small class="filter-title-pill"
-										>Color de marca: Bronce</small
+									Familia <small class="check-pill family">Morado</small>
+									<small class="filter-title-pill family"
+										>Color de familia</small
 									>
 								</div>
 								<label class="check"
 									><span
-										>KMC <small class="check-pill brand">Bronce</small></span
+										>KMC
+										<small class="check-pill family"
+											>Familia Morado</small
+										></span
 									><input data-filter="marca" type="checkbox" value="KMC"
 								/></label>
 								<label class="check"
-									><span>Fuel <small class="check-pill">Negro mate</small></span
+									><span
+										>Fuel
+										<small class="check-pill family"
+											>Familia Morado</small
+										></span
 									><input data-filter="marca" type="checkbox" value="Fuel"
 								/></label>
 								<label class="check"
-									><span>Method <small class="check-pill">Gunmetal</small></span
+									><span
+										>Method
+										<small class="check-pill family"
+											>Familia Morado</small
+										></span
 									><input data-filter="marca" type="checkbox" value="Method"
 								/></label>
 								<label class="check"
 									><span
-										>Black Rhino <small class="check-pill">Satin</small></span
+										>Black Rhino
+										<small class="check-pill family"
+											>Familia Morado</small
+										></span
 									><input
 										data-filter="marca"
 										type="checkbox"
@@ -1290,17 +1348,27 @@
 				}
 
 				const parts = [];
-				uso.forEach((v) => parts.push(`Uso: ${v}`));
-				marca.forEach((v) => parts.push(`Marca: ${v}`));
-				rin.forEach((v) => parts.push(`Rin: ${v}`));
-				if (minP != null) parts.push(`Min: ${minP}`);
-				if (maxP != null) parts.push(`Max: ${maxP}`);
+				uso.forEach((v) => parts.push({ label: `Uso: ${v}` }));
+				marca.forEach((v) =>
+					parts.push({ label: `Familia: ${v}`, family: true }),
+				);
+				rin.forEach((v) => parts.push({ label: `Rin: ${v}` }));
+				if (minP != null) parts.push({ label: `Min: ${minP}` });
+				if (maxP != null) parts.push({ label: `Max: ${maxP}` });
 
 				if (parts.length) {
 					activeFilters.style.display = "inline-flex";
-					activeFilters.textContent = parts.join(" • ");
+					activeFilters.innerHTML = parts
+						.map(
+							(part) =>
+								`<span class="active-filter-pill${
+									part.family ? " family" : ""
+								}">${part.label}</span>`,
+						)
+						.join("");
 				} else {
 					activeFilters.style.display = "none";
+					activeFilters.innerHTML = "";
 				}
 
 				render(list);
@@ -1314,6 +1382,7 @@
 				document.getElementById("maxPrice").value = "";
 				document.getElementById("sort").value = "relevancia";
 				activeFilters.style.display = "none";
+				activeFilters.innerHTML = "";
 				render(products);
 			}
 
