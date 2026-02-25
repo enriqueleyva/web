@@ -427,6 +427,74 @@
 				padding: 18px;
 				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
 			}
+			.finder-filter {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-bottom: 14px;
+			}
+			.filter-pill {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 8px 12px;
+				border-radius: 999px;
+				border: 1px solid rgba(255, 255, 255, 0.16);
+				font-size: 12px;
+				font-weight: 700;
+				color: var(--text);
+				cursor: pointer;
+				transition:
+					transform 0.15s ease,
+					box-shadow 0.15s ease,
+					opacity 0.15s ease;
+				opacity: 0.85;
+			}
+			.filter-pill:hover {
+				transform: translateY(-1px);
+				opacity: 1;
+			}
+			.filter-pill.active {
+				box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+				opacity: 1;
+			}
+			.filter-pill--all {
+				background: linear-gradient(
+					135deg,
+					rgba(43, 108, 255, 0.92),
+					rgba(106, 168, 255, 0.88)
+				);
+			}
+			.filter-pill--estilo {
+				background: linear-gradient(135deg, #1d4ed8, #2563eb);
+			}
+			.filter-pill--transporte {
+				background: linear-gradient(135deg, #0f766e, #14b8a6);
+			}
+			.filter-pill--agricultura {
+				background: linear-gradient(135deg, #3f6212, #65a30d);
+			}
+			.filter-pill--otr {
+				background: linear-gradient(135deg, #9a3412, #f97316);
+			}
+			.filter-pill--mineria {
+				background: linear-gradient(135deg, #a16207, #eab308);
+			}
+			.filter-pill--industria {
+				background: linear-gradient(135deg, #334155, #64748b);
+			}
+			.filter-pill--powersports {
+				background: linear-gradient(135deg, #be123c, #f43f5e);
+			}
+			.filter-pill--golf {
+				background: linear-gradient(135deg, #15803d, #22c55e);
+			}
+			.filter-pill--puerto {
+				background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+			}
+			.filter-pill--remolque {
+				background: linear-gradient(135deg, #7c3aed, #a78bfa);
+			}
 			.finder-grid {
 				display: grid;
 				grid-template-columns: repeat(4, 1fr);
@@ -863,7 +931,7 @@
 									class="hero-slide active"
 									style="background-image: url(&quot;assets/header.png&quot;)"
 								></div>
-								<div
+								<!-- <div
 									class="hero-slide"
 									style="background-image: url(&quot;assets/header1.png&quot;)"
 								></div>
@@ -874,7 +942,7 @@
 								<div
 									class="hero-slide"
 									style="background-image: url(&quot;assets/header3.png&quot;)"
-								></div>
+								></div> -->
 							</div>
 							<div class="hero-overlay"></div>
 							<!-- <div class="hero-controls">
@@ -885,7 +953,7 @@
 									›
 								</button>
 							</div> -->
-							<div
+							<!-- <div
 								class="hero-dots"
 								role="tablist"
 								aria-label="Imágenes destacadas"
@@ -914,11 +982,11 @@
 									data-carousel-dot="3"
 									aria-label="Ir a imagen 4"
 								></button>
-							</div>
+							</div> -->
 						</div>
 						<div class="hero-content">
 							<div class="pill">Importación • Comercialización • Mayoreo</div>
-							<h1>Impulsamos tu camino</h1>
+							<h1>Encuentra tu camino</h1>
 							<p class="lead">
 								Llanta correcta, para cada necesidad: pasajeros, carga, agrícola
 								e industrial.
@@ -953,6 +1021,100 @@
 					</div>
 
 					<div class="finder" aria-label="Buscador por medida (boceto)">
+						<div
+							class="finder-filter"
+							role="group"
+							aria-label="Tipos de llanta"
+						>
+							<button
+								class="filter-pill filter-pill--all active"
+								type="button"
+								data-type-filter="Todas"
+								aria-pressed="true"
+							>
+								Todas
+							</button>
+							<button
+								class="filter-pill filter-pill--estilo"
+								type="button"
+								data-type-filter="Estilo de vida"
+								aria-pressed="false"
+							>
+								Estilo de vida
+							</button>
+							<button
+								class="filter-pill filter-pill--transporte"
+								type="button"
+								data-type-filter="Transporte"
+								aria-pressed="false"
+							>
+								Transporte
+							</button>
+							<button
+								class="filter-pill filter-pill--agricultura"
+								type="button"
+								data-type-filter="Agricultura"
+								aria-pressed="false"
+							>
+								Agricultura
+							</button>
+							<button
+								class="filter-pill filter-pill--otr"
+								type="button"
+								data-type-filter="OTR"
+								aria-pressed="false"
+							>
+								OTR
+							</button>
+							<button
+								class="filter-pill filter-pill--mineria"
+								type="button"
+								data-type-filter="Minería"
+								aria-pressed="false"
+							>
+								Minería
+							</button>
+							<button
+								class="filter-pill filter-pill--industria"
+								type="button"
+								data-type-filter="Industria"
+								aria-pressed="false"
+							>
+								Industria
+							</button>
+							<button
+								class="filter-pill filter-pill--powersports"
+								type="button"
+								data-type-filter="Power Sports"
+								aria-pressed="false"
+							>
+								Power Sports
+							</button>
+							<button
+								class="filter-pill filter-pill--golf"
+								type="button"
+								data-type-filter="Mundo Golf"
+								aria-pressed="false"
+							>
+								Mundo Golf
+							</button>
+							<button
+								class="filter-pill filter-pill--puerto"
+								type="button"
+								data-type-filter="Puerto"
+								aria-pressed="false"
+							>
+								Puerto
+							</button>
+							<button
+								class="filter-pill filter-pill--remolque"
+								type="button"
+								data-type-filter="Remolque"
+								aria-pressed="false"
+							>
+								Remolque
+							</button>
+						</div>
 						<div class="finder-grid">
 							<div>
 								<label for="ancho">Ancho</label>
@@ -1164,13 +1326,28 @@
 							</div>
 						</a>
 
-						<a class="card" href="pages/catlogo.html" aria-label="Ofertas">
+						<a class="card" href="pages/catlogo.html" aria-label="Rines">
 							<div class="img">
-								<img src="assets/img/ofertas1.png" alt="" />
+								<img src="assets/img/rines.png" alt="" />
 							</div>
 							<div class="body">
-								<h3>Ofertas</h3>
-								<p>Promos y liquidaciones (si aplica).</p>
+								<h3>Rines</h3>
+								<p>Rines</p>
+								<span class="mini">Ver más →</span>
+							</div>
+						</a>
+
+						<a
+							class="card"
+							href="pages/catlogo.html"
+							aria-label="Cámaras y Corbatas"
+						>
+							<div class="img">
+								<img src="assets/img/camaras_corbatas.png" alt="" />
+							</div>
+							<div class="body">
+								<h3>Cámaras y Corbatas</h3>
+								<p>Cámaras y Corbatas</p>
 								<span class="mini">Ver más →</span>
 							</div>
 						</a>
@@ -1455,6 +1632,7 @@
 		<script>
 			// Simple helpers for the mockup
 			document.getElementById("year").textContent = new Date().getFullYear();
+			let selectedType = "Todas";
 
 			const menuBtn = document.getElementById("menuBtn");
 			const mobileMenu = document.getElementById("mobileMenu");
@@ -1474,8 +1652,24 @@
 						"Selecciona ancho, perfil y rin para simular una búsqueda";
 					return;
 				}
-				out.textContent = `Búsqueda simulada: ${a}/${p}R${r}`;
+				const typeLabel =
+					selectedType === "Todas" ? "todos los tipos" : `tipo ${selectedType}`;
+				out.textContent = `Búsqueda simulada (${typeLabel}): ${a}/${p}R${r}`;
 			}
+
+			const typeFilters = Array.from(
+				document.querySelectorAll("[data-type-filter]"),
+			);
+			typeFilters.forEach((pill) => {
+				pill.addEventListener("click", () => {
+					selectedType = pill.dataset.typeFilter || "Todas";
+					typeFilters.forEach((item) => {
+						const isActive = item === pill;
+						item.classList.toggle("active", isActive);
+						item.setAttribute("aria-pressed", String(isActive));
+					});
+				});
+			});
 
 			const slides = Array.from(document.querySelectorAll(".hero-slide"));
 			const dots = Array.from(document.querySelectorAll(".hero-dot"));
