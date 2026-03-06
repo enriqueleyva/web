@@ -1148,33 +1148,18 @@
 								<label for="ancho">Ancho</label>
 								<select id="ancho">
 									<option value="">Selecciona…</option>
-									<option>195</option>
-									<option>205</option>
-									<option>215</option>
-									<option>225</option>
-									<option>235</option>
 								</select>
 							</div>
 							<div>
 								<label for="perfil">Perfil (alto)</label>
 								<select id="perfil">
 									<option value="">Selecciona…</option>
-									<option>45</option>
-									<option>50</option>
-									<option>55</option>
-									<option>60</option>
-									<option>65</option>
 								</select>
 							</div>
 							<div>
 								<label for="rin">Rin</label>
 								<select id="rin">
 									<option value="">Selecciona…</option>
-									<option>15</option>
-									<option>16</option>
-									<option>17</option>
-									<option>18</option>
-									<option>20</option>
 								</select>
 							</div>
 							<div>
@@ -1736,6 +1721,102 @@
 			// Simple helpers for the mockup
 			document.getElementById("year").textContent = new Date().getFullYear();
 			let selectedType = "Todas";
+			const tireMeasures = [];
+
+			const anchoSelect = document.getElementById("ancho");
+			const perfilSelect = document.getElementById("perfil");
+			const rinSelect = document.getElementById("rin");
+
+			const formatMeasureValue = (value) => {
+				const number = Number(value);
+				if (Number.isNaN(number)) return value;
+				return Number.isInteger(number) ? String(number) : String(number);
+			};
+
+			const parseMeasure = (rawMeasure) => {
+				if (!rawMeasure) return null;
+				const measure = String(rawMeasure).trim().toUpperCase();
+				const matches = measure.match(/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/);
+				if (!matches) return null;
+				return {
+					ancho: formatMeasureValue(matches[1]),
+					perfil: formatMeasureValue(matches[2]),
+					rin: formatMeasureValue(matches[3]),
+				};
+			};
+
+			const uniqueSorted = (values) =>
+				Array.from(new Set(values)).sort((a, b) => Number(a) - Number(b));
+
+			const fillSelect = (select, values) => {
+				select.innerHTML = '<option value="">Selecciona…</option>';
+				values.forEach((value) => {
+					const option = document.createElement("option");
+					option.value = value;
+					option.textContent = value;
+					select.appendChild(option);
+				});
+			};
+
+			function refreshFinderOptions({ keepPerfil = false, keepRin = false } = {}) {
+				const selectedAncho = anchoSelect.value;
+				const selectedPerfil = perfilSelect.value;
+				const selectedRin = rinSelect.value;
+
+				const filteredByAncho = selectedAncho
+					? tireMeasures.filter((item) => item.ancho === selectedAncho)
+					: tireMeasures;
+
+				const perfiles = uniqueSorted(filteredByAncho.map((item) => item.perfil));
+				fillSelect(perfilSelect, perfiles);
+				perfilSelect.disabled = !selectedAncho;
+
+				if (keepPerfil && perfiles.includes(selectedPerfil)) {
+					perfilSelect.value = selectedPerfil;
+				}
+
+				const filteredByPerfil = perfilSelect.value
+					? filteredByAncho.filter((item) => item.perfil === perfilSelect.value)
+					: filteredByAncho;
+
+				const rines = uniqueSorted(filteredByPerfil.map((item) => item.rin));
+				fillSelect(rinSelect, rines);
+				rinSelect.disabled = !selectedAncho || !perfilSelect.value;
+
+				if (keepRin && rines.includes(selectedRin)) {
+					rinSelect.value = selectedRin;
+				}
+			}
+
+			async function loadFinderData() {
+				const out = document.getElementById("searchResult");
+				try {
+					const response = await fetch("assets/data/data.json");
+					if (!response.ok) throw new Error("No se pudo cargar el archivo data.json");
+
+					const dataset = await response.json();
+					tireMeasures.push(
+						...dataset
+							.map((item) => parseMeasure(item.MEDIDA))
+							.filter(Boolean),
+					);
+
+					const anchos = uniqueSorted(tireMeasures.map((item) => item.ancho));
+					fillSelect(anchoSelect, anchos);
+					refreshFinderOptions();
+				} catch (error) {
+					console.error(error);
+					out.textContent =
+						"No fue posible cargar las medidas dinámicas por ahora.";
+				}
+			}
+
+			anchoSelect.addEventListener("change", () => {
+				refreshFinderOptions();
+			});
+			perfilSelect.addEventListener("change", () => {
+				refreshFinderOptions({ keepPerfil: true });
+			});
 
 			const menuBtn = document.getElementById("menuBtn");
 			const mobileMenu = document.getElementById("mobileMenu");
@@ -1759,6 +1840,8 @@
 					selectedType === "Todas" ? "todos los tipos" : `tipo ${selectedType}`;
 				out.textContent = `Búsqueda simulada (${typeLabel}): ${a}/${p}R${r}`;
 			}
+
+			loadFinderData();
 
 			const typeFilters = Array.from(
 				document.querySelectorAll("[data-type-filter]"),
