@@ -1,0 +1,173 @@
+(function () {
+	const CATEGORY_RULES = {
+		"estilo-de-vida": {
+			aplicaciones: ["AUTO", "CAMIONETA"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		transporte: {
+			aplicaciones: ["CAMION"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		"camaras-y-corbatas": {
+			clases: ["CAMARA", "CORBATA", "O-RING"],
+			limit: 9,
+		},
+		remolque: {
+			aplicaciones: ["REMOLQUE"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		industria: {
+			aplicaciones: ["INDUSTRIAL"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		mineria: {
+			aplicaciones: ["OTR"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		"mundo-del-golf": {
+			aplicaciones: ["SPECIALTY", "IMPLEMENTO AGRICOLA"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		agricultura: {
+			aplicaciones: ["AGRICOLA", "IMPLEMENTO AGRICOLA"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		otr: {
+			aplicaciones: ["OTR"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		puerto: {
+			aplicaciones: ["INDUSTRIAL"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		powersports: {
+			aplicaciones: ["POWERSPORTS", "MOTO"],
+			clases: ["LLANTA"],
+			limit: 9,
+		},
+		rines: {
+			clases: ["RINES"],
+			limit: 9,
+		},
+	};
+
+	const main = document.querySelector("main[id]");
+	if (!main) return;
+
+	const categoryId = main.id;
+	const rule = CATEGORY_RULES[categoryId];
+	if (!rule) return;
+
+	const grid = document.querySelector("section.grid");
+	if (!grid) return;
+
+	const isValidLink = (link) => Boolean(link && link !== "#N/A");
+	const toMoney = (value) => {
+		if (!value) return "Sin precio";
+		const numeric = Number(String(value).replace(/,/g, ""));
+		if (Number.isNaN(numeric)) return "Sin precio";
+		return new Intl.NumberFormat("es-MX", {
+			style: "currency",
+			currency: "MXN",
+			maximumFractionDigits: 2,
+		}).format(numeric);
+	};
+
+	const buildCard = (item) => {
+		const article = document.createElement("article");
+		article.className = "product";
+
+		const badge = item.CLASE || item.APLICACION || "Producto";
+		const meta = [item.MARCA, item.MODELO].filter(Boolean).join(" · ") || (item.APLICACION || "Sin aplicación");
+
+		const specs = [
+			item.MEDIDA ? `<span class="spec">${item.MEDIDA}</span>` : "",
+			item.CONSTRUCCION ? `<span class="spec">${item.CONSTRUCCION}</span>` : "",
+			item.EXISTENCIA !== null && item.EXISTENCIA !== undefined ? `<span class="spec">Stock: ${item.EXISTENCIA}</span>` : "",
+		]
+			.filter(Boolean)
+			.join("");
+
+		const linkHtml = isValidLink(item.LINK)
+			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">Detalles</a>`
+			: `<button class="btn" type="button" disabled>Detalles</button>`;
+
+		article.innerHTML = `
+			<div class="p-img">
+				<span class="p-badge">${badge}</span>
+			</div>
+			<div class="p-body">
+				<b>${item.NOMBRE || "Producto"}</b>
+				<span class="meta">${meta}</span>
+				<div class="specs">${specs}</div>
+				<div class="price-row">
+					<div class="price">
+						${toMoney(item.PRECIO_TIENDA)}
+						<small>precio sugerido</small>
+					</div>
+					${linkHtml}
+				</div>
+				<div class="actions">
+					<a class="btn primary" href="../index.html#contacto">Cotizar</a>
+				</div>
+			</div>
+		`;
+
+		return article;
+	};
+
+	const matchesRule = (item) => {
+		const byAplicacion = !rule.aplicaciones || rule.aplicaciones.includes(item.APLICACION);
+		const byClase = !rule.clases || rule.clases.includes(item.CLASE);
+		return byAplicacion && byClase;
+	};
+
+	fetch("../assets/data/data.json")
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("No se pudo cargar data.json");
+			}
+			return response.json();
+		})
+		.then((data) => {
+			const products = data
+				.filter(matchesRule)
+				.sort((a, b) => (b.EXISTENCIA || 0) - (a.EXISTENCIA || 0))
+				.slice(0, rule.limit || 9);
+
+			grid.innerHTML = "";
+
+			if (!products.length) {
+				grid.innerHTML = `
+					<article class="product">
+						<div class="p-body">
+							<b>Sin resultados</b>
+							<span class="meta">No encontramos productos para esta categoría.</span>
+						</div>
+					</article>
+				`;
+				return;
+			}
+
+			products.forEach((item) => grid.appendChild(buildCard(item)));
+		})
+		.catch(() => {
+			grid.innerHTML = `
+				<article class="product">
+					<div class="p-body">
+						<b>No fue posible cargar productos</b>
+						<span class="meta">Intenta recargar la página.</span>
+					</div>
+				</article>
+			`;
+		});
+})();
