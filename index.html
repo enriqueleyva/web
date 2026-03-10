@@ -466,40 +466,84 @@
 				);
 			}
 			.filter-pill--estilo {
-				background: linear-gradient(135deg, #1d4ed8, #2563eb);
+				background: linear-gradient(135deg, #d62828, rgba(0, 0, 0, 0.35));
 			}
 			.filter-pill--transporte {
-				background: linear-gradient(135deg, #0f766e, #14b8a6);
+				background: linear-gradient(
+					135deg,
+					rgb(11, 45, 77),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--agricultura {
-				background: linear-gradient(135deg, #3f6212, #65a30d);
+				background: linear-gradient(
+					135deg,
+					rgb(45, 106, 79),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--otr {
-				background: linear-gradient(135deg, #9a3412, #f97316);
+				background: linear-gradient(
+					135deg,
+					rgb(247, 127, 0),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--mineria {
-				background: linear-gradient(135deg, #a16207, #eab308);
+				background: linear-gradient(
+					135deg,
+					rgb(43, 45, 66),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--industria {
-				background: linear-gradient(135deg, #334155, #64748b);
+				background: linear-gradient(
+					135deg,
+					rgb(107, 114, 128),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--powersports {
-				background: linear-gradient(135deg, #be123c, #f43f5e);
+				background: linear-gradient(
+					135deg,
+					rgb(29, 78, 216),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--golf {
-				background: linear-gradient(135deg, #15803d, #22c55e);
+				background: linear-gradient(
+					135deg,
+					rgb(76, 175, 80),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--puerto {
-				background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+				background: linear-gradient(
+					135deg,
+					rgb(0, 95, 115),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--remolque {
-				background: linear-gradient(135deg, #7c3aed, #a78bfa);
+				background: linear-gradient(
+					135deg,
+					rgb(242, 201, 76),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--camaras-corbatas {
-				background: linear-gradient(135deg, #7e22ce, #a855f7);
+				background: linear-gradient(
+					135deg,
+					rgb(168, 85, 247),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.filter-pill--rines {
-				background: linear-gradient(135deg, #475569, #94a3b8);
+				background: linear-gradient(
+					135deg,
+					rgb(71, 85, 105),
+					rgba(0, 0, 0, 0.35)
+				);
 			}
 			.finder-grid {
 				display: grid;
@@ -1736,7 +1780,9 @@
 			const parseMeasure = (rawMeasure) => {
 				if (!rawMeasure) return null;
 				const measure = String(rawMeasure).trim().toUpperCase();
-				const matches = measure.match(/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/);
+				const matches = measure.match(
+					/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/,
+				);
 				if (!matches) return null;
 				return {
 					ancho: formatMeasureValue(matches[1]),
@@ -1758,7 +1804,10 @@
 				});
 			};
 
-			function refreshFinderOptions({ keepPerfil = false, keepRin = false } = {}) {
+			function refreshFinderOptions({
+				keepPerfil = false,
+				keepRin = false,
+			} = {}) {
 				const selectedAncho = anchoSelect.value;
 				const selectedPerfil = perfilSelect.value;
 				const selectedRin = rinSelect.value;
@@ -1767,7 +1816,9 @@
 					? tireMeasures.filter((item) => item.ancho === selectedAncho)
 					: tireMeasures;
 
-				const perfiles = uniqueSorted(filteredByAncho.map((item) => item.perfil));
+				const perfiles = uniqueSorted(
+					filteredByAncho.map((item) => item.perfil),
+				);
 				fillSelect(perfilSelect, perfiles);
 				perfilSelect.disabled = !selectedAncho;
 
@@ -1792,13 +1843,12 @@
 				const out = document.getElementById("searchResult");
 				try {
 					const response = await fetch("assets/data/data.json");
-					if (!response.ok) throw new Error("No se pudo cargar el archivo data.json");
+					if (!response.ok)
+						throw new Error("No se pudo cargar el archivo data.json");
 
 					const dataset = await response.json();
 					tireMeasures.push(
-						...dataset
-							.map((item) => parseMeasure(item.MEDIDA))
-							.filter(Boolean),
+						...dataset.map((item) => parseMeasure(item.MEDIDA)).filter(Boolean),
 					);
 
 					const anchos = uniqueSorted(tireMeasures.map((item) => item.ancho));

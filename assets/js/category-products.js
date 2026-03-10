@@ -1,62 +1,67 @@
 (function () {
 	const CATEGORY_RULES = {
+		"estilo-vida": {
+			aplicaciones: ["AUTO", "CAMIONETA"],
+			clases: ["LLANTA"],
+			limit: 100,
+		},
 		"estilo-de-vida": {
 			aplicaciones: ["AUTO", "CAMIONETA"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		transporte: {
 			aplicaciones: ["CAMION"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		"camaras-y-corbatas": {
 			clases: ["CAMARA", "CORBATA", "O-RING"],
-			limit: 9,
+			limit: 100,
 		},
 		remolque: {
 			aplicaciones: ["REMOLQUE"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		industria: {
 			aplicaciones: ["INDUSTRIAL"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		mineria: {
 			aplicaciones: ["OTR"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		"mundo-del-golf": {
 			aplicaciones: ["SPECIALTY", "IMPLEMENTO AGRICOLA"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		agricultura: {
 			aplicaciones: ["AGRICOLA", "IMPLEMENTO AGRICOLA"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		otr: {
 			aplicaciones: ["OTR"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		puerto: {
 			aplicaciones: ["INDUSTRIAL"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		powersports: {
 			aplicaciones: ["POWERSPORTS", "MOTO"],
 			clases: ["LLANTA"],
-			limit: 9,
+			limit: 100,
 		},
 		rines: {
 			clases: ["RINES"],
-			limit: 9,
+			limit: 100,
 		},
 	};
 
@@ -87,12 +92,17 @@
 		article.className = "product";
 
 		const badge = item.CLASE || item.APLICACION || "Producto";
-		const meta = [item.MARCA, item.MODELO].filter(Boolean).join(" · ") || (item.APLICACION || "Sin aplicación");
+		const meta =
+			[item.MARCA, item.MODELO].filter(Boolean).join(" · ") ||
+			item.APLICACION ||
+			"Sin aplicación";
 
 		const specs = [
 			item.MEDIDA ? `<span class="spec">${item.MEDIDA}</span>` : "",
 			item.CONSTRUCCION ? `<span class="spec">${item.CONSTRUCCION}</span>` : "",
-			item.EXISTENCIA !== null && item.EXISTENCIA !== undefined ? `<span class="spec">Stock: ${item.EXISTENCIA}</span>` : "",
+			// item.EXISTENCIA !== null && item.EXISTENCIA !== undefined
+			// 	? `<span class="spec">Stock: ${item.EXISTENCIA}</span>`
+			// 	: "",
 		]
 			.filter(Boolean)
 			.join("");
@@ -126,7 +136,8 @@
 	};
 
 	const matchesRule = (item) => {
-		const byAplicacion = !rule.aplicaciones || rule.aplicaciones.includes(item.APLICACION);
+		const byAplicacion =
+			!rule.aplicaciones || rule.aplicaciones.includes(item.APLICACION);
 		const byClase = !rule.clases || rule.clases.includes(item.CLASE);
 		return byAplicacion && byClase;
 	};
