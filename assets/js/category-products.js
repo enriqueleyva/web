@@ -72,6 +72,22 @@
 	const rule = CATEGORY_RULES[categoryId];
 	if (!rule) return;
 
+	const CATEGORY_PLACEHOLDERS = {
+		"estilo-vida": "../assets/placeholders/estiloDeVida.webp",
+		"estilo-de-vida": "../assets/placeholders/estiloDeVida.webp",
+		transporte: "../assets/placeholders/transporte.webp",
+		"camaras-y-corbatas": "../assets/placeholders/camaraCorbata.webp",
+		remolque: "../assets/placeholders/rmolque.webp",
+		industria: "../assets/placeholders/industrial.webp",
+		mineria: "../assets/placeholders/minero.webp",
+		"mundo-del-golf": "../assets/placeholders/carroGolf.webp",
+		agricultura: "../assets/placeholders/agricultura.webp",
+		otr: "../assets/placeholders/otr.webp",
+		puerto: "../assets/placeholders/puerto.webp",
+		powersports: "../assets/placeholders/powerSports.webp",
+		rines: "../assets/placeholders/rim.webp",
+	};
+
 	const grid = document.querySelector("section.grid");
 	if (!grid) return;
 
@@ -94,6 +110,11 @@
 		if (!link) return false;
 		const normalized = String(link).trim().toUpperCase();
 		return normalized !== "#N/A" && normalized !== "N/A" && normalized !== "NA";
+	};
+
+	const getCardImage = (item) => {
+		if (isValidLink(item.IMG)) return item.IMG;
+		return CATEGORY_PLACEHOLDERS[categoryId] || "../assets/placeholders/otr.webp";
 	};
 
 	const hasMercadoLibreButton = (item) => {
@@ -167,6 +188,9 @@
 				</div>
 			</div>
 		`;
+
+		const imageUrl = getCardImage(item);
+		article.querySelector(".p-img").style.backgroundImage = `url("${imageUrl}")`;
 
 		return article;
 	};
