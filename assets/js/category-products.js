@@ -76,6 +76,19 @@
 	if (!grid) return;
 
 	const WHATSAPP_NUMBER = "524441449905";
+	const WHATSAPP_ICON = `
+		<span class="btn-icon" aria-hidden="true">
+			<svg viewBox="0 0 24 24" role="img" focusable="false">
+				<path d="M20.52 3.48A11.87 11.87 0 0 0 12.07 0C5.52 0 .2 5.32.2 11.87c0 2.1.55 4.15 1.6 5.96L0 24l6.33-1.75a11.82 11.82 0 0 0 5.74 1.47h.01c6.55 0 11.87-5.32 11.87-11.87 0-3.17-1.24-6.15-3.43-8.37Zm-8.45 18.24h-.01a9.84 9.84 0 0 1-5.02-1.37l-.36-.21-3.76 1.04 1-3.67-.24-.38a9.85 9.85 0 0 1-1.5-5.24c0-5.43 4.42-9.85 9.86-9.85 2.62 0 5.09 1.02 6.95 2.89a9.8 9.8 0 0 1 2.89 6.96c0 5.43-4.43 9.84-9.86 9.84Zm5.4-7.37c-.3-.16-1.78-.88-2.06-.98-.27-.1-.47-.16-.67.16-.2.3-.77.97-.95 1.17-.18.2-.36.22-.66.08-.3-.16-1.28-.47-2.43-1.5a8.97 8.97 0 0 1-1.68-2.07c-.18-.31-.02-.48.14-.64.14-.13.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.38-.02-.54-.08-.16-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.53.08-.8.38-.28.3-1.05 1.04-1.05 2.53s1.07 2.94 1.22 3.14c.15.2 2.1 3.2 5.07 4.49.71.3 1.27.48 1.71.61.72.23 1.38.2 1.9.12.58-.08 1.78-.73 2.03-1.43.25-.7.25-1.3.17-1.43-.08-.13-.27-.2-.57-.35Z" />
+			</svg>
+		</span>`;
+	const MERCADO_LIBRE_ICON = `
+		<span class="btn-icon" aria-hidden="true">
+			<svg viewBox="0 0 24 24" role="img" focusable="false">
+				<ellipse cx="12" cy="12" rx="10.5" ry="7.5"></ellipse>
+				<path d="M8.3 11.1c.8 0 1.3.4 1.8.9.5-.5 1-.9 1.9-.9.8 0 1.4.4 1.9.9.5-.5 1-.9 1.8-.9.9 0 1.6.7 1.6 1.6 0 .8-.5 1.4-1.2 1.6l-2.5.7c-.5.1-1 .1-1.5 0l-1.1-.3-1.1.3c-.5.1-1 .1-1.5 0l-2.5-.7c-.7-.2-1.2-.8-1.2-1.6 0-.9.7-1.6 1.6-1.6Zm1.5 1.2-.2.2c-.3.3-.7.5-1.1.5-.3 0-.6-.1-.8-.2-.2-.1-.4.1-.4.3 0 .2.1.3.3.4l2.5.7c.3.1.7.1 1 0l1.2-.3.9-.2.9.2 1.2.3c.3.1.7.1 1 0l2.5-.7c.2-.1.3-.2.3-.4 0-.2-.2-.4-.4-.3-.2.1-.5.2-.8.2-.4 0-.8-.2-1.1-.5l-.2-.2-.2.2c-.4.4-1 .7-1.6.7-.7 0-1.2-.3-1.7-.7l-.2-.2-.2.2c-.4.4-1 .7-1.7.7s-1.2-.3-1.6-.7l-.2-.2Z"></path>
+			</svg>
+		</span>`;
 
 	const isValidLink = (link) => {
 		if (!link) return false;
@@ -125,12 +138,12 @@
 			.join("");
 
 		const mlButtonHtml = hasMercadoLibreButton(item)
-			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">🛒 Mercado Libre</a>`
+			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">${MERCADO_LIBRE_ICON}<span>Mercado Libre</span></a>`
 			: "";
 
 		const whatsappButtonHtml = `<a class="btn primary" href="${getWhatsAppHref(
 			item
-		)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>`;
+		)}" target="_blank" rel="noopener noreferrer">${WHATSAPP_ICON}<span>WhatsApp</span></a>`;
 
 		article.innerHTML = `
 			<div class="p-img">
