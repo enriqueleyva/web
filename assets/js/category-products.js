@@ -83,8 +83,10 @@
 		return normalized !== "#N/A" && normalized !== "N/A" && normalized !== "NA";
 	};
 
-	const hasMercadoLibreButton = (item) =>
-		isValidLink(item.LINK) && String(item.STATUS_ML || "").trim() === "Activo";
+	const hasMercadoLibreButton = (item) => {
+		const normalizedStatus = String(item.STATUS_ML || "").trim().toUpperCase();
+		return isValidLink(item.LINK) && normalizedStatus.startsWith("ACTIV");
+	};
 
 	const getWhatsAppHref = (item) => {
 		const productName = item.NOMBRE || "producto";
@@ -123,12 +125,12 @@
 			.join("");
 
 		const mlButtonHtml = hasMercadoLibreButton(item)
-			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">Mercado Libre</a>`
+			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">🛒 Mercado Libre</a>`
 			: "";
 
 		const whatsappButtonHtml = `<a class="btn primary" href="${getWhatsAppHref(
 			item
-		)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`;
+		)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>`;
 
 		article.innerHTML = `
 			<div class="p-img">
