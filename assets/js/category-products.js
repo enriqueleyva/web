@@ -75,7 +75,22 @@
 	const grid = document.querySelector("section.grid");
 	if (!grid) return;
 
-	const isValidLink = (link) => Boolean(link && link !== "#N/A");
+	const WHATSAPP_NUMBER = "524441449905";
+
+	const isValidLink = (link) => {
+		if (!link) return false;
+		const normalized = String(link).trim().toUpperCase();
+		return normalized !== "#N/A" && normalized !== "N/A" && normalized !== "NA";
+	};
+
+	const hasMercadoLibreButton = (item) =>
+		isValidLink(item.LINK) && String(item.STATUS_ML || "").trim() === "Activo";
+
+	const getWhatsAppHref = (item) => {
+		const productName = item.NOMBRE || "producto";
+		const message = `Hola, me interesa cotizar ${productName}`;
+		return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+	};
 	const toMoney = (value) => {
 		if (!value) return "Sin precio";
 		const numeric = Number(String(value).replace(/,/g, ""));
@@ -107,9 +122,13 @@
 			.filter(Boolean)
 			.join("");
 
-		const linkHtml = isValidLink(item.LINK)
-			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">Detalles</a>`
-			: `<button class="btn" type="button" disabled>Detalles</button>`;
+		const mlButtonHtml = hasMercadoLibreButton(item)
+			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">Mercado Libre</a>`
+			: "";
+
+		const whatsappButtonHtml = `<a class="btn primary" href="${getWhatsAppHref(
+			item
+		)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`;
 
 		article.innerHTML = `
 			<div class="p-img">
@@ -124,10 +143,10 @@
 						${toMoney(item.PRECIO_TIENDA)}
 						<small>precio sugerido</small>
 					</div>
-					${linkHtml}
 				</div>
 				<div class="actions">
-					<a class="btn primary" href="../index.html#contacto">Cotizar</a>
+					${mlButtonHtml}
+					${whatsappButtonHtml}
 				</div>
 			</div>
 		`;
