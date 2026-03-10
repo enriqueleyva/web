@@ -85,9 +85,9 @@
 	const MERCADO_LIBRE_ICON = `
 		<span class="btn-icon" aria-hidden="true">
 			<svg viewBox="0 0 24 24" role="img" focusable="false">
-				<ellipse cx="12" cy="12" rx="10.5" ry="7.5"></ellipse>
-				<path d="M8.3 11.1c.8 0 1.3.4 1.8.9.5-.5 1-.9 1.9-.9.8 0 1.4.4 1.9.9.5-.5 1-.9 1.8-.9.9 0 1.6.7 1.6 1.6 0 .8-.5 1.4-1.2 1.6l-2.5.7c-.5.1-1 .1-1.5 0l-1.1-.3-1.1.3c-.5.1-1 .1-1.5 0l-2.5-.7c-.7-.2-1.2-.8-1.2-1.6 0-.9.7-1.6 1.6-1.6Zm1.5 1.2-.2.2c-.3.3-.7.5-1.1.5-.3 0-.6-.1-.8-.2-.2-.1-.4.1-.4.3 0 .2.1.3.3.4l2.5.7c.3.1.7.1 1 0l1.2-.3.9-.2.9.2 1.2.3c.3.1.7.1 1 0l2.5-.7c.2-.1.3-.2.3-.4 0-.2-.2-.4-.4-.3-.2.1-.5.2-.8.2-.4 0-.8-.2-1.1-.5l-.2-.2-.2.2c-.4.4-1 .7-1.6.7-.7 0-1.2-.3-1.7-.7l-.2-.2-.2.2c-.4.4-1 .7-1.7.7s-1.2-.3-1.6-.7l-.2-.2Z"></path>
+				<path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
 			</svg>
+			
 		</span>`;
 
 	const isValidLink = (link) => {
@@ -97,7 +97,9 @@
 	};
 
 	const hasMercadoLibreButton = (item) => {
-		const normalizedStatus = String(item.STATUS_ML || "").trim().toUpperCase();
+		const normalizedStatus = String(item.STATUS_ML || "")
+			.trim()
+			.toUpperCase();
 		return isValidLink(item.LINK) && normalizedStatus.startsWith("ACTIV");
 	};
 
@@ -138,12 +140,12 @@
 			.join("");
 
 		const mlButtonHtml = hasMercadoLibreButton(item)
-			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">${MERCADO_LIBRE_ICON}<span>Mercado Libre</span></a>`
+			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">${MERCADO_LIBRE_ICON}<span>Comprar</span></a>`
 			: "";
 
 		const whatsappButtonHtml = `<a class="btn primary" href="${getWhatsAppHref(
-			item
-		)}" target="_blank" rel="noopener noreferrer">${WHATSAPP_ICON}<span>WhatsApp</span></a>`;
+			item,
+		)}" target="_blank" rel="noopener noreferrer">${WHATSAPP_ICON}<span>Cotizar</span></a>`;
 
 		article.innerHTML = `
 			<div class="p-img">
