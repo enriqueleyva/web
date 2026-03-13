@@ -1208,9 +1208,9 @@
 							</div>
 							<div>
 								<button
+									id="finderSearchButton"
 									class="btn primary"
 									type="button"
-									onclick="fakeSearch()"
 								>
 									Buscar
 								</button>
@@ -1770,6 +1770,7 @@
 			const anchoSelect = document.getElementById("ancho");
 			const perfilSelect = document.getElementById("perfil");
 			const rinSelect = document.getElementById("rin");
+			const finderSearchButton = document.getElementById("finderSearchButton");
 
 			const formatMeasureValue = (value) => {
 				const number = Number(value);
@@ -1876,20 +1877,27 @@
 				);
 			}
 
-			function fakeSearch() {
+			function searchByFinder() {
 				const a = document.getElementById("ancho").value;
 				const p = document.getElementById("perfil").value;
 				const r = document.getElementById("rin").value;
 				const out = document.getElementById("searchResult");
 				if (!a || !p || !r) {
 					out.textContent =
-						"Selecciona ancho, perfil y rin para simular una búsqueda";
+						"Selecciona ancho, perfil y rin para realizar la búsqueda.";
 					return;
 				}
-				const typeLabel =
-					selectedType === "Todas" ? "todos los tipos" : `tipo ${selectedType}`;
-				out.textContent = `Búsqueda simulada (${typeLabel}): ${a}/${p}R${r}`;
+
+				const params = new URLSearchParams({
+					ancho: a,
+					perfil: p,
+					rin: r,
+					tipo: selectedType,
+				});
+				window.location.href = `pages/resultados-busqueda.html?${params.toString()}`;
 			}
+
+			finderSearchButton.addEventListener("click", searchByFinder);
 
 			loadFinderData();
 

@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Resultados de búsqueda | GMX Prime</title>
+		<style>
+			:root {
+				--bg: #0b1220;
+				--surface: #101c3a;
+				--line: rgba(255, 255, 255, 0.1);
+				--text: #eaf0ff;
+				--muted: #b9c5e6;
+				--primary: #2b6cff;
+				--primary-2: #6aa8ff;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+				background: linear-gradient(180deg, #070b14, #0b1220 35%, #070b14);
+				color: var(--text);
+			}
+			.container {
+				width: min(1120px, calc(100% - 32px));
+				margin: 0 auto;
+			}
+			header {
+				border-bottom: 1px solid var(--line);
+				padding: 20px 0;
+			}
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+			.back-link {
+				display: inline-block;
+				padding: 8px 14px;
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.08);
+				font-weight: 700;
+			}
+			main {
+				padding: 28px 0 40px;
+			}
+			.panel {
+				border: 1px solid var(--line);
+				border-radius: 18px;
+				background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+				padding: 18px;
+			}
+			.criteria {
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+				margin: 16px 0;
+			}
+			.tag {
+				padding: 6px 12px;
+				border: 1px solid var(--line);
+				border-radius: 999px;
+				font-size: 13px;
+				font-weight: 700;
+				color: var(--muted);
+			}
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+				gap: 14px;
+				margin-top: 20px;
+			}
+			.card {
+				border: 1px solid var(--line);
+				border-radius: 14px;
+				padding: 14px;
+				background: var(--surface);
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.card h3 {
+				margin: 0;
+				font-size: 15px;
+			}
+			.card p {
+				margin: 0;
+				color: var(--muted);
+				font-size: 13px;
+			}
+			.card .cta {
+				margin-top: auto;
+				text-align: center;
+				padding: 9px 10px;
+				border-radius: 999px;
+				background: linear-gradient(135deg, var(--primary), var(--primary-2));
+				font-weight: 800;
+			}
+			.empty {
+				margin-top: 18px;
+				color: var(--muted);
+				font-weight: 700;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="container">
+				<a class="back-link" href="../index.html#finder">← Volver al buscador</a>
+			</div>
+		</header>
+		<main>
+			<div class="container">
+				<section class="panel">
+					<h1 style="margin: 0">Resultados de tu búsqueda</h1>
+					<p id="searchSummary" style="color: var(--muted)"></p>
+					<div id="criteriaTags" class="criteria"></div>
+					<div id="resultsGrid" class="grid"></div>
+					<p id="emptyState" class="empty" hidden>
+						No se encontraron productos con esos criterios.
+					</p>
+				</section>
+			</div>
+		</main>
+		<script>
+			const params = new URLSearchParams(window.location.search);
+			const ancho = (params.get("ancho") || "").trim();
+			const perfil = (params.get("perfil") || "").trim();
+			const rin = (params.get("rin") || "").trim();
+			const tipo = (params.get("tipo") || "Todas").trim();
+
+			const parseMeasure = (rawMeasure) => {
+				if (!rawMeasure) return null;
+				const measure = String(rawMeasure).trim().toUpperCase();
+				const matches = measure.match(
+					/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/,
+				);
+				if (!matches) return null;
+				return {
+					ancho: matches[1],
+					perfil: matches[2],
+					rin: matches[3],
+				};
+			};
+
+			const typeMap = {
+				"Estilo de vida": { aplicaciones: ["AUTO", "CAMIONETA"] },
+				Transporte: { aplicaciones: ["CAMION"] },
+				Agricultura: { aplicaciones: ["AGRICOLA", "IMPLEMENTO AGRICOLA"] },
+				OTR: { aplicaciones: ["OTR"] },
+				"Minería": { aplicaciones: ["OTR"] },
+				Industria: { aplicaciones: ["INDUSTRIAL"] },
+				"Power Sports": { aplicaciones: ["POWERSPORTS", "MOTO"] },
+				"Mundo Golf": { aplicaciones: ["SPECIALTY"] },
+				Puerto: { aplicaciones: ["SPECIALTY"] },
+				Remolque: { aplicaciones: ["REMOLQUE"] },
+				Rines: { clases: ["RIN"] },
+				"Cámaras y Corbatas": { clases: ["CAMARA"] },
+			};
+
+			const criteriaTags = document.getElementById("criteriaTags");
+			const summary = document.getElementById("searchSummary");
+			const resultsGrid = document.getElementById("resultsGrid");
+			const emptyState = document.getElementById("emptyState");
+
+			const addTag = (label) => {
+				const span = document.createElement("span");
+				span.className = "tag";
+				span.textContent = label;
+				criteriaTags.appendChild(span);
+			};
+
+			addTag(`Ancho: ${ancho || "No definido"}`);
+			addTag(`Perfil: ${perfil || "No definido"}`);
+			addTag(`Rin: ${rin || "No definido"}`);
+			addTag(`Tipo: ${tipo || "Todas"}`);
+
+			async function loadResults() {
+				if (!ancho || !perfil || !rin) {
+					summary.textContent = "Faltan filtros. Regresa al buscador y selecciona ancho, perfil y rin.";
+					emptyState.hidden = false;
+					return;
+				}
+
+				const response = await fetch("../assets/data/data.json");
+				if (!response.ok) {
+					summary.textContent = "No fue posible cargar el catálogo de productos.";
+					emptyState.hidden = false;
+					return;
+				}
+
+				const dataset = await response.json();
+				const parsedProducts = dataset
+					.map((item) => ({ ...item, parsedMeasure: parseMeasure(item.MEDIDA) }))
+					.filter((item) => item.parsedMeasure);
+
+				const typeFilters = typeMap[tipo] || null;
+				const filtered = parsedProducts.filter((item) => {
+					const matchesMeasure =
+						item.parsedMeasure.ancho === ancho &&
+						item.parsedMeasure.perfil === perfil &&
+						item.parsedMeasure.rin === rin;
+					if (!matchesMeasure) return false;
+					if (!typeFilters) return true;
+
+					const app = String(item.APLICACION || "").toUpperCase().trim();
+					const clase = String(item.CLASE || "").toUpperCase().trim();
+					const byApp =
+						!typeFilters.aplicaciones || typeFilters.aplicaciones.includes(app);
+					const byClass = !typeFilters.clases || typeFilters.clases.includes(clase);
+
+					return byApp && byClass;
+				});
+
+				summary.textContent = `${filtered.length} resultado(s) para ${ancho}/${perfil}R${rin}.`;
+
+				if (!filtered.length) {
+					emptyState.hidden = false;
+					return;
+				}
+
+				filtered.forEach((item) => {
+					const card = document.createElement("article");
+					card.className = "card";
+					const productLink = item.LINK && item.LINK !== "#N/A" ? item.LINK : "../index.html#contacto";
+					card.innerHTML = `
+						<h3>${item.NOMBRE || "Producto"}</h3>
+						<p><b>Marca:</b> ${item.MARCA || "N/D"}</p>
+						<p><b>Medida:</b> ${item.MEDIDA || "N/D"}</p>
+						<p><b>Aplicación:</b> ${item.APLICACION || "N/D"}</p>
+						<p><b>Existencia:</b> ${item.EXISTENCIA ?? "N/D"}</p>
+						<a class="cta" href="${productLink}" target="_blank" rel="noopener noreferrer">Ver producto</a>
+					`;
+					resultsGrid.appendChild(card);
+				});
+			}
+
+			loadResults();
+		</script>
+	</body>
+</html>
