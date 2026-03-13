@@ -333,6 +333,78 @@
 				font-weight: 800;
 			}
 
+			.product-modal-overlay {
+				position: fixed;
+				inset: 0;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+				background: rgba(5, 9, 17, 0.75);
+				backdrop-filter: blur(5px);
+				z-index: 120;
+			}
+			.product-modal-overlay.is-open {
+				display: flex;
+			}
+			.product-modal {
+				width: min(860px, 100%);
+				border-radius: 18px;
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				background: linear-gradient(180deg, #121b30, #0f172a 65%, #0b1220);
+				box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5);
+				overflow: hidden;
+			}
+			.product-modal-body {
+				display: grid;
+				grid-template-columns: minmax(240px, 320px) 1fr;
+			}
+			.product-modal-image {
+				min-height: 260px;
+				background-size: cover;
+				background-position: center;
+			}
+			.product-modal-content {
+				padding: 22px;
+				display: grid;
+				gap: 12px;
+			}
+			.product-modal-head {
+				display: flex;
+				justify-content: space-between;
+				gap: 12px;
+			}
+			.product-modal-title {
+				margin: 0;
+				font-size: 24px;
+			}
+			.product-modal-close {
+				border: 1px solid rgba(255, 255, 255, 0.22);
+				background: rgba(255, 255, 255, 0.08);
+				color: #eaf0ff;
+				width: 36px;
+				height: 36px;
+				border-radius: 999px;
+				font-size: 20px;
+				line-height: 1;
+				cursor: pointer;
+			}
+			.product-modal-info {
+				display: grid;
+				gap: 8px;
+			}
+			.product-modal-info-row {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+			}
+			.product-modal-actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin-top: 6px;
+			}
+
 			@media (max-width: 1200px) {
 				nav {
 					display: none;
@@ -347,6 +419,12 @@
 				}
 				.actions {
 					grid-template-columns: 1fr;
+				}
+				.product-modal-body {
+					grid-template-columns: 1fr;
+				}
+				.product-modal-image {
+					min-height: 200px;
 				}
 			}
 			@media (max-width: 520px) {
@@ -515,6 +593,56 @@
 				document.head.appendChild(style);
 			}
 
+
+
+			const toMoney = (value) => {
+				if (!value) return "Sin precio";
+				const numeric = Number(String(value).replace(/,/g, ""));
+				if (Number.isNaN(numeric)) return "Sin precio";
+				return new Intl.NumberFormat("es-MX", {
+					style: "currency",
+					currency: "MXN",
+					maximumFractionDigits: 2,
+				}).format(numeric);
+			};
+
+			const modalOverlay = document.createElement("div");
+			modalOverlay.className = "product-modal-overlay";
+			modalOverlay.innerHTML = `
+				<div class="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+					<div class="product-modal-body">
+						<div class="product-modal-image" id="product-modal-image"></div>
+						<div class="product-modal-content">
+							<div class="product-modal-head">
+								<div>
+									<h3 class="product-modal-title" id="product-modal-title"></h3>
+									<span class="meta" id="product-modal-meta"></span>
+								</div>
+								<button type="button" class="product-modal-close" aria-label="Cerrar modal">×</button>
+							</div>
+							<span class="p-badge" id="product-modal-badge"></span>
+							<div class="product-modal-info">
+								<div class="product-modal-info-row" id="product-modal-specs"></div>
+								<div class="price" id="product-modal-price"></div>
+							</div>
+							<div class="product-modal-actions" id="product-modal-actions"></div>
+						</div>
+					</div>
+				</div>
+			`;
+			document.body.appendChild(modalOverlay);
+
+			const closeModal = () => modalOverlay.classList.remove("is-open");
+			modalOverlay
+				.querySelector(".product-modal-close")
+				.addEventListener("click", closeModal);
+			modalOverlay.addEventListener("click", (event) => {
+				if (event.target === modalOverlay) closeModal();
+			});
+			document.addEventListener("keydown", (event) => {
+				if (event.key === "Escape") closeModal();
+			});
+
 			addTag(`Ancho: ${ancho || "No definido"}`);
 			addTag(`Perfil: ${perfil || "No definido"}`);
 			addTag(`Rin: ${rin || "No definido"}`);
@@ -602,6 +730,31 @@
 							</div>
 						</div>
 					`;
+
+
+					card.addEventListener("click", (event) => {
+						if (event.target.closest(".actions a")) return;
+
+						modalOverlay.querySelector("#product-modal-title").textContent =
+							item.NOMBRE || "Producto";
+						modalOverlay.querySelector("#product-modal-meta").textContent =
+							`${item.MARCA || "N/D"} · ${item.MODELO || "N/D"}`;
+						modalOverlay.querySelector("#product-modal-badge").textContent =
+							item.CLASE || "Llanta";
+						modalOverlay.querySelector("#product-modal-image").style.backgroundImage =
+							`url('${cardImage}')`;
+						modalOverlay.querySelector("#product-modal-price").innerHTML =
+							`${toMoney(item.PRECIO_TIENDA)} <small>precio sugerido</small>`;
+						modalOverlay.querySelector("#product-modal-specs").innerHTML = `
+							<span class="spec">${item.MEDIDA || "N/D"}</span>
+							<span class="spec">${item.APLICACION || "N/D"}</span>
+							<span class="spec">${item.CONSTRUCCION || "Sin construcción"}</span>
+						`;
+						modalOverlay.querySelector("#product-modal-actions").innerHTML =
+							`${mlButtonHtml}${whatsappButtonHtml}`;
+						modalOverlay.classList.add("is-open");
+					});
+
 					resultsGrid.appendChild(card);
 				});
 			}
