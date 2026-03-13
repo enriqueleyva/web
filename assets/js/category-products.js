@@ -213,13 +213,15 @@
 		const style = document.createElement("style");
 		style.id = BUTTON_STYLE_ID;
 		style.textContent = `
-			.actions .btn.buy-btn {
+			.actions .btn.buy-btn,
+			.product-modal-actions .btn.buy-btn {
 				background: #FFE600;
 				border-color: #FFE600;
 				color: #1d1d1f;
 			}
 
-			.actions .btn.whatsapp-btn {
+			.actions .btn.whatsapp-btn,
+			.product-modal-actions .btn.whatsapp-btn {
 				background: #25D366;
 				border-color: #25D366;
 				color: #ffffff;
