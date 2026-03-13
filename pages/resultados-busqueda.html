@@ -7,115 +7,342 @@
 		<style>
 			:root {
 				--bg: #0b1220;
-				--surface: #101c3a;
-				--line: rgba(255, 255, 255, 0.1);
 				--text: #eaf0ff;
 				--muted: #b9c5e6;
-				--primary: #2b6cff;
-				--primary-2: #6aa8ff;
+				--line: rgba(255, 255, 255, 0.1);
+				--accent-rgb: 11, 45, 77;
+				--shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+				--radius: 18px;
+				--max: 1120px;
 			}
 			* {
 				box-sizing: border-box;
 			}
 			body {
 				margin: 0;
-				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-				background: linear-gradient(180deg, #070b14, #0b1220 35%, #070b14);
+				font-family:
+					ui-sans-serif,
+					system-ui,
+					-apple-system,
+					Segoe UI,
+					Roboto,
+					Helvetica,
+					Arial;
+				background:
+					radial-gradient(
+						1200px 700px at 15% 0%,
+						rgba(var(--accent-rgb), 0.16),
+						transparent 55%
+					),
+					radial-gradient(
+						900px 600px at 95% 10%,
+						rgba(var(--accent-rgb), 0.14),
+						transparent 50%
+					),
+					linear-gradient(180deg, #070b14, #0b1220 35%, #070b14);
 				color: var(--text);
-			}
-			.container {
-				width: min(1120px, calc(100% - 32px));
-				margin: 0 auto;
-			}
-			header {
-				border-bottom: 1px solid var(--line);
-				padding: 20px 0;
+				line-height: 1.45;
 			}
 			a {
 				color: inherit;
 				text-decoration: none;
 			}
-			.back-link {
-				display: inline-block;
-				padding: 8px 14px;
-				border-radius: 999px;
-				background: rgba(255, 255, 255, 0.08);
+			.container {
+				width: min(var(--max), calc(100% - 32px));
+				margin: 0 auto;
+			}
+			.brand-image {
+				height: 64px;
+				width: auto;
+			}
+
+			header {
+				position: sticky;
+				top: 0;
+				z-index: 50;
+				backdrop-filter: blur(10px);
+				background: rgba(11, 18, 32, 0.55);
+				border-bottom: 1px solid var(--line);
+			}
+			.topbar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 14px 0;
+				gap: 14px;
+			}
+			.brand {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				min-width: 180px;
+			}
+			nav {
+				display: flex;
+				align-items: center;
+				gap: 18px;
+			}
+			nav a {
+				color: var(--muted);
 				font-weight: 700;
+				font-size: 14px;
+				padding: 10px 10px;
+				border-radius: 12px;
+				transition: 0.15s ease;
 			}
-			main {
-				padding: 28px 0 40px;
-			}
-			.panel {
+			nav a:hover,
+			nav a.active {
+				color: var(--text);
+				background: rgba(255, 255, 255, 0.08);
 				border: 1px solid var(--line);
-				border-radius: 18px;
-				background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-				padding: 18px;
+			}
+			.cta-header {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				padding: 10px 14px;
+				border-radius: 999px;
+				background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.92), rgba(var(--accent-rgb), 0.72));
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				font-weight: 900;
+				font-size: 14px;
+				white-space: nowrap;
+				box-shadow: 0 16px 35px rgba(var(--accent-rgb), 0.2);
+			}
+
+			main {
+				padding: 24px 0 32px;
+			}
+			.page-hero {
+				border: 1px solid var(--line);
+				border-radius: 24px;
+				overflow: hidden;
+				background:
+					radial-gradient(900px 500px at 25% 35%, rgba(var(--accent-rgb), 0.3), transparent 58%),
+					radial-gradient(900px 500px at 80% 30%, rgba(var(--accent-rgb), 0.18), transparent 55%),
+					linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+				box-shadow: var(--shadow);
+				padding: 20px 22px;
+			}
+			.crumbs {
+				display: flex;
+				gap: 8px;
+				flex-wrap: wrap;
+				color: rgba(234, 240, 255, 0.75);
+				font-weight: 900;
+				font-size: 12px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+			}
+			.crumbs span {
+				color: rgba(234, 240, 255, 0.4);
+			}
+			.accent-tag {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 6px 12px;
+				border-radius: 999px;
+				border: 1px solid rgba(var(--accent-rgb), 0.5);
+				background: rgba(var(--accent-rgb), 0.12);
+				color: #f8f9ff;
+				font-weight: 900;
+				font-size: 12px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				margin-top: 10px;
+			}
+			h1 {
+				margin: 12px 0 8px;
+				font-size: 32px;
+				letter-spacing: -0.02em;
+				line-height: 1.1;
+			}
+			.lead {
+				margin: 0;
+				color: var(--muted);
+				font-weight: 800;
+				font-size: 14px;
 			}
 			.criteria {
 				display: flex;
 				gap: 10px;
 				flex-wrap: wrap;
-				margin: 16px 0;
+				margin-top: 14px;
 			}
 			.tag {
 				padding: 6px 12px;
 				border: 1px solid var(--line);
 				border-radius: 999px;
-				font-size: 13px;
-				font-weight: 700;
-				color: var(--muted);
+				font-size: 12px;
+				font-weight: 900;
+				color: rgba(234, 240, 255, 0.82);
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+				background: rgba(255, 255, 255, 0.03);
+			}
+
+			.results-wrap {
+				margin-top: 20px;
 			}
 			.grid {
 				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+				grid-template-columns: repeat(4, minmax(0, 1fr));
 				gap: 14px;
-				margin-top: 20px;
+				margin-top: 14px;
 			}
-			.card {
+			.product {
 				border: 1px solid var(--line);
-				border-radius: 14px;
-				padding: 14px;
-				background: var(--surface);
+				background: rgba(255, 255, 255, 0.04);
+				border-radius: var(--radius);
+				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+				overflow: hidden;
 				display: flex;
 				flex-direction: column;
+				min-height: 280px;
+			}
+			.p-img {
+				height: 160px;
+				background:
+					radial-gradient(260px 180px at 70% 40%, rgba(var(--accent-rgb), 0.35), transparent 60%),
+					radial-gradient(240px 180px at 30% 65%, rgba(var(--accent-rgb), 0.22), transparent 55%),
+					linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+				background-size: cover;
+				background-position: center;
+				position: relative;
+			}
+			.p-badge {
+				position: absolute;
+				top: 12px;
+				left: 12px;
+				padding: 7px 10px;
+				border-radius: 999px;
+				border: 1px solid rgba(var(--accent-rgb), 0.6);
+				background: rgba(var(--accent-rgb), 0.2);
+				color: rgba(255, 237, 237, 0.95);
+				font-weight: 1000;
+				font-size: 11px;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+			.p-body {
+				padding: 12px 12px 14px;
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				height: 100%;
+			}
+			.p-body b {
+				font-size: 14px;
+			}
+			.meta {
+				color: var(--muted);
+				font-weight: 900;
+				font-size: 12px;
+			}
+			.specs {
+				display: flex;
+				flex-wrap: wrap;
 				gap: 8px;
 			}
-			.card h3 {
-				margin: 0;
-				font-size: 15px;
-			}
-			.card p {
-				margin: 0;
-				color: var(--muted);
-				font-size: 13px;
-			}
-			.card .cta {
-				margin-top: auto;
-				text-align: center;
-				padding: 9px 10px;
+			.spec {
+				padding: 6px 10px;
 				border-radius: 999px;
-				background: linear-gradient(135deg, var(--primary), var(--primary-2));
-				font-weight: 800;
+				border: 1px solid var(--line);
+				background: rgba(255, 255, 255, 0.04);
+				color: rgba(234, 240, 255, 0.78);
+				font-weight: 1000;
+				font-size: 11px;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+			.actions {
+				margin-top: auto;
+			}
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				min-height: 46px;
+				padding: 10px 12px;
+				border-radius: 999px;
+				border: 1px solid var(--line);
+				background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.96), rgba(var(--accent-rgb), 0.76));
+				font-weight: 1000;
+				font-size: 14px;
+				line-height: 1;
+				white-space: nowrap;
+				color: var(--text);
 			}
 			.empty {
-				margin-top: 18px;
+				margin-top: 16px;
 				color: var(--muted);
-				font-weight: 700;
+				font-weight: 800;
+			}
+
+			@media (max-width: 1200px) {
+				nav {
+					display: none;
+				}
+				.grid {
+					grid-template-columns: repeat(3, minmax(0, 1fr));
+				}
+			}
+			@media (max-width: 900px) {
+				.grid {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+			}
+			@media (max-width: 520px) {
+				.topbar {
+					flex-wrap: wrap;
+				}
+				.grid {
+					grid-template-columns: 1fr;
+				}
 			}
 		</style>
 	</head>
 	<body>
 		<header>
 			<div class="container">
-				<a class="back-link" href="../index.html#finder">← Volver al buscador</a>
+				<div class="topbar">
+					<a class="brand" href="../index.html#inicio" aria-label="GMX Prime">
+						<img
+							src="https://gmxprime.com/wp-content/uploads/2019/12/cropped-cropped-logo-gmxtw.png"
+							alt="GMX Prime"
+							class="brand-image"
+						/>
+					</a>
+					<nav aria-label="Navegación principal">
+						<a href="../index.html#inicio">Inicio</a>
+						<a class="active" href="../index.html#catalogo">Catálogo</a>
+						<a href="../index.html#estilo-vida">Estilo de vida</a>
+						<a href="../index.html#blog">Blog</a>
+						<a href="../index.html#contacto">Contacto</a>
+					</nav>
+					<a class="cta-header" href="../index.html#contacto">Cotizar / WhatsApp</a>
+				</div>
 			</div>
 		</header>
 		<main>
 			<div class="container">
-				<section class="panel">
-					<h1 style="margin: 0">Resultados de tu búsqueda</h1>
-					<p id="searchSummary" style="color: var(--muted)"></p>
+				<section class="page-hero">
+					<div class="crumbs" aria-label="breadcrumbs">
+						<a href="../index.html#inicio">Inicio</a>
+						<span>›</span>
+						<a href="../index.html#catalogo">Catálogo</a>
+						<span>›</span>
+						<span>Resultados búsqueda</span>
+					</div>
+					<span class="accent-tag">Buscador de medidas</span>
+					<h1>Resultados de tu búsqueda</h1>
+					<p id="searchSummary" class="lead"></p>
 					<div id="criteriaTags" class="criteria"></div>
+				</section>
+
+				<section class="results-wrap" aria-label="Resultados">
 					<div id="resultsGrid" class="grid"></div>
 					<p id="emptyState" class="empty" hidden>
 						No se encontraron productos con esos criterios.
@@ -133,9 +360,7 @@
 			const parseMeasure = (rawMeasure) => {
 				if (!rawMeasure) return null;
 				const measure = String(rawMeasure).trim().toUpperCase();
-				const matches = measure.match(
-					/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/,
-				);
+				const matches = measure.match(/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/);
 				if (!matches) return null;
 				return {
 					ancho: matches[1],
@@ -169,6 +394,17 @@
 				span.className = "tag";
 				span.textContent = label;
 				criteriaTags.appendChild(span);
+			};
+
+			const isValidLink = (link) => {
+				if (!link) return false;
+				const normalized = String(link).trim().toUpperCase();
+				return normalized !== "#N/A" && normalized !== "N/A" && normalized !== "NA";
+			};
+
+			const getCardImage = (item) => {
+				if (isValidLink(item.IMG)) return item.IMG;
+				return "../assets/placeholders/transporte.webp";
 			};
 
 			addTag(`Ancho: ${ancho || "No definido"}`);
@@ -206,8 +442,7 @@
 
 					const app = String(item.APLICACION || "").toUpperCase().trim();
 					const clase = String(item.CLASE || "").toUpperCase().trim();
-					const byApp =
-						!typeFilters.aplicaciones || typeFilters.aplicaciones.includes(app);
+					const byApp = !typeFilters.aplicaciones || typeFilters.aplicaciones.includes(app);
 					const byClass = !typeFilters.clases || typeFilters.clases.includes(clase);
 
 					return byApp && byClass;
@@ -222,15 +457,25 @@
 
 				filtered.forEach((item) => {
 					const card = document.createElement("article");
-					card.className = "card";
-					const productLink = item.LINK && item.LINK !== "#N/A" ? item.LINK : "../index.html#contacto";
+					card.className = "product";
+					const productLink = isValidLink(item.LINK) ? item.LINK : "../index.html#contacto";
+					const cardImage = getCardImage(item);
+
 					card.innerHTML = `
-						<h3>${item.NOMBRE || "Producto"}</h3>
-						<p><b>Marca:</b> ${item.MARCA || "N/D"}</p>
-						<p><b>Medida:</b> ${item.MEDIDA || "N/D"}</p>
-						<p><b>Aplicación:</b> ${item.APLICACION || "N/D"}</p>
-						<p><b>Existencia:</b> ${item.EXISTENCIA ?? "N/D"}</p>
-						<a class="cta" href="${productLink}" target="_blank" rel="noopener noreferrer">Ver producto</a>
+						<div class="p-img" style="background-image: url('${cardImage}');">
+							<span class="p-badge">${item.CLASE || "Llanta"}</span>
+						</div>
+						<div class="p-body">
+							<b>${item.NOMBRE || "Producto"}</b>
+							<span class="meta">${item.MARCA || "N/D"} · ${item.MODELO || "N/D"}</span>
+							<div class="specs">
+								<span class="spec">${item.MEDIDA || "N/D"}</span>
+								<span class="spec">${item.APLICACION || "N/D"}</span>
+							</div>
+							<div class="actions">
+								<a class="btn" href="${productLink}" target="_blank" rel="noopener noreferrer">Ver producto</a>
+							</div>
+						</div>
 					`;
 					resultsGrid.appendChild(card);
 				});
