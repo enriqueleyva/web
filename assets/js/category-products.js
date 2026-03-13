@@ -91,6 +91,26 @@
 	const grid = document.querySelector("section.grid");
 	if (!grid) return;
 
+	const BUTTON_STYLE_ID = "product-action-button-colors";
+	if (!document.getElementById(BUTTON_STYLE_ID)) {
+		const style = document.createElement("style");
+		style.id = BUTTON_STYLE_ID;
+		style.textContent = `
+			.actions .btn.buy-btn {
+				background: #FFE600;
+				border-color: #FFE600;
+				color: #1d1d1f;
+			}
+
+			.actions .btn.whatsapp-btn {
+				background: #25D366;
+				border-color: #25D366;
+				color: #ffffff;
+			}
+		`;
+		document.head.appendChild(style);
+	}
+
 	const WHATSAPP_NUMBER = "524441449905";
 	const WHATSAPP_ICON = `
 		<span class="btn-icon" aria-hidden="true">
@@ -161,10 +181,10 @@
 			.join("");
 
 		const mlButtonHtml = hasMercadoLibreButton(item)
-			? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">${MERCADO_LIBRE_ICON}<span>Comprar</span></a>`
+			? `<a class="btn buy-btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">${MERCADO_LIBRE_ICON}<span>Comprar</span></a>`
 			: "";
 
-		const whatsappButtonHtml = `<a class="btn primary" href="${getWhatsAppHref(
+		const whatsappButtonHtml = `<a class="btn primary whatsapp-btn" href="${getWhatsAppHref(
 			item,
 		)}" target="_blank" rel="noopener noreferrer">${WHATSAPP_ICON}<span>Cotizar</span></a>`;
 
