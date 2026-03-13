@@ -102,7 +102,11 @@
 				justify-content: center;
 				padding: 10px 14px;
 				border-radius: 999px;
-				background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.92), rgba(var(--accent-rgb), 0.72));
+				background: linear-gradient(
+					135deg,
+					rgba(var(--accent-rgb), 0.92),
+					rgba(var(--accent-rgb), 0.72)
+				);
 				border: 1px solid rgba(255, 255, 255, 0.1);
 				font-weight: 900;
 				font-size: 14px;
@@ -118,9 +122,21 @@
 				border-radius: 24px;
 				overflow: hidden;
 				background:
-					radial-gradient(900px 500px at 25% 35%, rgba(var(--accent-rgb), 0.3), transparent 58%),
-					radial-gradient(900px 500px at 80% 30%, rgba(var(--accent-rgb), 0.18), transparent 55%),
-					linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+					radial-gradient(
+						900px 500px at 25% 35%,
+						rgba(var(--accent-rgb), 0.3),
+						transparent 58%
+					),
+					radial-gradient(
+						900px 500px at 80% 30%,
+						rgba(var(--accent-rgb), 0.18),
+						transparent 55%
+					),
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.06),
+						rgba(255, 255, 255, 0.02)
+					);
 				box-shadow: var(--shadow);
 				padding: 20px 22px;
 			}
@@ -205,9 +221,21 @@
 				aspect-ratio: 9 / 16;
 				width: 100%;
 				background:
-					radial-gradient(260px 180px at 70% 40%, rgba(var(--accent-rgb), 0.35), transparent 60%),
-					radial-gradient(240px 180px at 30% 65%, rgba(var(--accent-rgb), 0.22), transparent 55%),
-					linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+					radial-gradient(
+						260px 180px at 70% 40%,
+						rgba(var(--accent-rgb), 0.35),
+						transparent 60%
+					),
+					radial-gradient(
+						240px 180px at 30% 65%,
+						rgba(var(--accent-rgb), 0.22),
+						transparent 55%
+					),
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.06),
+						rgba(255, 255, 255, 0.02)
+					);
 				background-size: cover;
 				background-position: center;
 				position: relative;
@@ -281,7 +309,11 @@
 				color: var(--text);
 			}
 			.btn.primary {
-				background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.96), rgba(var(--accent-rgb), 0.76));
+				background: linear-gradient(
+					135deg,
+					rgba(var(--accent-rgb), 0.96),
+					rgba(var(--accent-rgb), 0.76)
+				);
 			}
 			.btn-icon {
 				width: 18px;
@@ -345,7 +377,9 @@
 						<a href="../index.html#blog">Blog</a>
 						<a href="../index.html#contacto">Contacto</a>
 					</nav>
-					<a class="cta-header" href="../index.html#contacto">Cotizar / WhatsApp</a>
+					<a class="cta-header" href="../index.html#contacto"
+						>Cotizar / WhatsApp</a
+					>
 				</div>
 			</div>
 		</header>
@@ -374,7 +408,7 @@
 			</div>
 		</main>
 		<script>
-			const WHATSAPP_NUMBER = "524441449905";
+			const WHATSAPP_NUMBER = "524448278252";
 			const WHATSAPP_ICON = `
 				<span class="btn-icon" aria-hidden="true">
 					<svg viewBox="0 0 24 24" role="img" focusable="false">
@@ -397,7 +431,9 @@
 			const parseMeasure = (rawMeasure) => {
 				if (!rawMeasure) return null;
 				const measure = String(rawMeasure).trim().toUpperCase();
-				const matches = measure.match(/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/);
+				const matches = measure.match(
+					/(\d+(?:\.\d+)?)\s*\/(\d+(?:\.\d+)?)\s*[-R]\s*(\d+(?:\.\d+)?)/,
+				);
 				if (!matches) return null;
 				return {
 					ancho: matches[1],
@@ -411,7 +447,7 @@
 				Transporte: { aplicaciones: ["CAMION"] },
 				Agricultura: { aplicaciones: ["AGRICOLA", "IMPLEMENTO AGRICOLA"] },
 				OTR: { aplicaciones: ["OTR"] },
-				"Minería": { aplicaciones: ["OTR"] },
+				Minería: { aplicaciones: ["OTR"] },
 				Industria: { aplicaciones: ["INDUSTRIAL"] },
 				"Power Sports": { aplicaciones: ["POWERSPORTS", "MOTO"] },
 				"Mundo Golf": { aplicaciones: ["SPECIALTY"] },
@@ -436,7 +472,9 @@
 			const isValidLink = (link) => {
 				if (!link) return false;
 				const normalized = String(link).trim().toUpperCase();
-				return normalized !== "#N/A" && normalized !== "N/A" && normalized !== "NA";
+				return (
+					normalized !== "#N/A" && normalized !== "N/A" && normalized !== "NA"
+				);
 			};
 
 			const getCardImage = (item) => {
@@ -464,21 +502,26 @@
 
 			async function loadResults() {
 				if (!ancho || !perfil || !rin) {
-					summary.textContent = "Faltan filtros. Regresa al buscador y selecciona ancho, perfil y rin.";
+					summary.textContent =
+						"Faltan filtros. Regresa al buscador y selecciona ancho, perfil y rin.";
 					emptyState.hidden = false;
 					return;
 				}
 
 				const response = await fetch("../assets/data/data.json");
 				if (!response.ok) {
-					summary.textContent = "No fue posible cargar el catálogo de productos.";
+					summary.textContent =
+						"No fue posible cargar el catálogo de productos.";
 					emptyState.hidden = false;
 					return;
 				}
 
 				const dataset = await response.json();
 				const parsedProducts = dataset
-					.map((item) => ({ ...item, parsedMeasure: parseMeasure(item.MEDIDA) }))
+					.map((item) => ({
+						...item,
+						parsedMeasure: parseMeasure(item.MEDIDA),
+					}))
 					.filter((item) => item.parsedMeasure);
 
 				const typeFilters = typeMap[tipo] || null;
@@ -490,10 +533,16 @@
 					if (!matchesMeasure) return false;
 					if (!typeFilters) return true;
 
-					const app = String(item.APLICACION || "").toUpperCase().trim();
-					const clase = String(item.CLASE || "").toUpperCase().trim();
-					const byApp = !typeFilters.aplicaciones || typeFilters.aplicaciones.includes(app);
-					const byClass = !typeFilters.clases || typeFilters.clases.includes(clase);
+					const app = String(item.APLICACION || "")
+						.toUpperCase()
+						.trim();
+					const clase = String(item.CLASE || "")
+						.toUpperCase()
+						.trim();
+					const byApp =
+						!typeFilters.aplicaciones || typeFilters.aplicaciones.includes(app);
+					const byClass =
+						!typeFilters.clases || typeFilters.clases.includes(clase);
 
 					return byApp && byClass;
 				});
