@@ -91,6 +91,123 @@
 	const grid = document.querySelector("section.grid");
 	if (!grid) return;
 
+	const MODAL_STYLE_ID = "product-modal-styles";
+	if (!document.getElementById(MODAL_STYLE_ID)) {
+		const modalStyle = document.createElement("style");
+		modalStyle.id = MODAL_STYLE_ID;
+		modalStyle.textContent = `
+			.product-modal-overlay {
+				position: fixed;
+				inset: 0;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				padding: 20px;
+				background: rgba(5, 9, 17, 0.75);
+				backdrop-filter: blur(5px);
+				z-index: 120;
+			}
+
+			.product-modal-overlay.is-open {
+				display: flex;
+			}
+
+			.product-modal {
+				width: min(860px, 100%);
+				border-radius: 18px;
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				background: linear-gradient(180deg, #121b30, #0f172a 65%, #0b1220);
+				box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5);
+				overflow: hidden;
+			}
+
+			.product-modal-body {
+				display: grid;
+				grid-template-columns: minmax(240px, 320px) 1fr;
+				gap: 0;
+			}
+
+			.product-modal-image {
+				min-height: 260px;
+				background-size: cover;
+				background-position: center;
+				position: relative;
+			}
+
+			.product-modal-content {
+				padding: 22px;
+				display: grid;
+				gap: 12px;
+			}
+
+			.product-modal-head {
+				display: flex;
+				justify-content: space-between;
+				gap: 12px;
+				align-items: flex-start;
+			}
+
+			.product-modal-title {
+				margin: 0;
+				font-size: 24px;
+				line-height: 1.2;
+			}
+
+			.product-modal-close {
+				border: 1px solid rgba(255, 255, 255, 0.22);
+				background: rgba(255, 255, 255, 0.08);
+				color: #eaf0ff;
+				width: 36px;
+				height: 36px;
+				border-radius: 999px;
+				font-size: 20px;
+				line-height: 1;
+				cursor: pointer;
+			}
+
+			.product-modal-content .meta { opacity: 0.9; }
+
+			.product-modal-info {
+				display: grid;
+				gap: 8px;
+			}
+
+			.product-modal-info-row {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+			}
+
+			.product-modal-info-row .spec {
+				display: inline-flex;
+				padding: 6px 10px;
+				border-radius: 999px;
+				font-size: 12px;
+				font-weight: 800;
+				border: 1px solid rgba(255, 255, 255, 0.16);
+				background: rgba(255, 255, 255, 0.07);
+			}
+
+			.product-modal-actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin-top: 6px;
+			}
+
+			@media (max-width: 820px) {
+				.product-modal-body {
+					grid-template-columns: 1fr;
+				}
+
+				.product-modal-image {
+					min-height: 200px;
+				}
+			}
+		`;
+		document.head.appendChild(modalStyle);
+	}
+
 	const BUTTON_STYLE_ID = "product-action-button-colors";
 	if (!document.getElementById(BUTTON_STYLE_ID)) {
 		const style = document.createElement("style");
@@ -149,6 +266,44 @@
 		const message = `Hola, me interesa cotizar ${productName}`;
 		return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 	};
+
+	const modalOverlay = document.createElement("div");
+	modalOverlay.className = "product-modal-overlay";
+	modalOverlay.innerHTML = `
+		<div class="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+			<div class="product-modal-body">
+				<div class="product-modal-image" id="product-modal-image"></div>
+				<div class="product-modal-content">
+					<div class="product-modal-head">
+						<div>
+							<h3 class="product-modal-title" id="product-modal-title"></h3>
+							<span class="meta" id="product-modal-meta"></span>
+						</div>
+						<button type="button" class="product-modal-close" aria-label="Cerrar modal">×</button>
+					</div>
+					<span class="p-badge" id="product-modal-badge"></span>
+					<div class="product-modal-info">
+						<div class="product-modal-info-row" id="product-modal-specs"></div>
+						<div class="price" id="product-modal-price"></div>
+					</div>
+					<div class="product-modal-actions" id="product-modal-actions"></div>
+				</div>
+			</div>
+		</div>
+	`;
+	document.body.appendChild(modalOverlay);
+
+	const modalCloseButton = modalOverlay.querySelector(".product-modal-close");
+
+	const closeModal = () => modalOverlay.classList.remove("is-open");
+
+	modalCloseButton.addEventListener("click", closeModal);
+	modalOverlay.addEventListener("click", (event) => {
+		if (event.target === modalOverlay) closeModal();
+	});
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") closeModal();
+	});
 	const toMoney = (value) => {
 		if (!value) return "Sin precio";
 		const numeric = Number(String(value).replace(/,/g, ""));
@@ -211,6 +366,39 @@
 
 		const imageUrl = getCardImage(item);
 		article.querySelector(".p-img").style.backgroundImage = `url("${imageUrl}")`;
+
+		article.addEventListener("click", (event) => {
+			if (event.target.closest(".actions a")) return;
+
+			const modalTitle = modalOverlay.querySelector("#product-modal-title");
+			const modalMeta = modalOverlay.querySelector("#product-modal-meta");
+			const modalBadge = modalOverlay.querySelector("#product-modal-badge");
+			const modalSpecs = modalOverlay.querySelector("#product-modal-specs");
+			const modalPrice = modalOverlay.querySelector("#product-modal-price");
+			const modalImage = modalOverlay.querySelector("#product-modal-image");
+			const modalActions = modalOverlay.querySelector("#product-modal-actions");
+
+			modalTitle.textContent = item.NOMBRE || "Producto";
+			modalMeta.textContent = meta;
+			modalBadge.textContent = badge;
+			modalPrice.innerHTML = `${toMoney(item.PRECIO_TIENDA)} <small>precio sugerido</small>`;
+			modalImage.style.backgroundImage = `url("${imageUrl}")`;
+
+			const infoChips = [
+				item.MEDIDA ? `<span class="spec">Medida: ${item.MEDIDA}</span>` : "",
+				item.CONSTRUCCION
+					? `<span class="spec">Construcción: ${item.CONSTRUCCION}</span>`
+					: "",
+				item.APLICACION ? `<span class="spec">Aplicación: ${item.APLICACION}</span>` : "",
+				item.MARCA ? `<span class="spec">Marca: ${item.MARCA}</span>` : "",
+			]
+				.filter(Boolean)
+				.join("");
+			modalSpecs.innerHTML = infoChips || '<span class="spec">Sin información adicional</span>';
+
+			modalActions.innerHTML = `${mlButtonHtml}${whatsappButtonHtml}`;
+			modalOverlay.classList.add("is-open");
+		});
 
 		return article;
 	};
