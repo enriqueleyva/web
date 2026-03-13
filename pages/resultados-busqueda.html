@@ -258,23 +258,42 @@
 				text-transform: uppercase;
 			}
 			.actions {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 10px;
 				margin-top: auto;
 			}
 			.btn {
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
+				gap: 8px;
 				width: 100%;
 				min-height: 46px;
 				padding: 10px 12px;
 				border-radius: 999px;
 				border: 1px solid var(--line);
-				background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.96), rgba(var(--accent-rgb), 0.76));
+				background: rgba(255, 255, 255, 0.06);
 				font-weight: 1000;
 				font-size: 14px;
 				line-height: 1;
 				white-space: nowrap;
 				color: var(--text);
+			}
+			.btn.primary {
+				background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.96), rgba(var(--accent-rgb), 0.76));
+			}
+			.btn-icon {
+				width: 18px;
+				height: 18px;
+				flex: 0 0 18px;
+				display: inline-block;
+			}
+			.btn-icon svg {
+				display: block;
+				width: 100%;
+				height: 100%;
+				fill: currentColor;
 			}
 			.empty {
 				margin-top: 16px;
@@ -293,6 +312,9 @@
 			@media (max-width: 900px) {
 				.grid {
 					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+				.actions {
+					grid-template-columns: 1fr;
 				}
 			}
 			@media (max-width: 520px) {
@@ -352,6 +374,20 @@
 			</div>
 		</main>
 		<script>
+			const WHATSAPP_NUMBER = "524441449905";
+			const WHATSAPP_ICON = `
+				<span class="btn-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" role="img" focusable="false">
+						<path d="M20.52 3.48A11.87 11.87 0 0 0 12.07 0C5.52 0 .2 5.32.2 11.87c0 2.1.55 4.15 1.6 5.96L0 24l6.33-1.75a11.82 11.82 0 0 0 5.74 1.47h.01c6.55 0 11.87-5.32 11.87-11.87 0-3.17-1.24-6.15-3.43-8.37Zm-8.45 18.24h-.01a9.84 9.84 0 0 1-5.02-1.37l-.36-.21-3.76 1.04 1-3.67-.24-.38a9.85 9.85 0 0 1-1.5-5.24c0-5.43 4.42-9.85 9.86-9.85 2.62 0 5.09 1.02 6.95 2.89a9.8 9.8 0 0 1 2.89 6.96c0 5.43-4.43 9.84-9.86 9.84Zm5.4-7.37c-.3-.16-1.78-.88-2.06-.98-.27-.1-.47-.16-.67.16-.2.3-.77.97-.95 1.17-.18.2-.36.22-.66.08-.3-.16-1.28-.47-2.43-1.5a8.97 8.97 0 0 1-1.68-2.07c-.18-.31-.02-.48.14-.64.14-.13.3-.35.45-.53.15-.17.2-.3.3-.5.1-.2.05-.38-.02-.54-.08-.16-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.53.08-.8.38-.28.3-1.05 1.04-1.05 2.53s1.07 2.94 1.22 3.14c.15.2 2.1 3.2 5.07 4.49.71.3 1.27.48 1.71.61.72.23 1.38.2 1.9.12.58-.08 1.78-.73 2.03-1.43.25-.7.25-1.3.17-1.43-.08-.13-.27-.2-.57-.35Z" />
+					</svg>
+				</span>`;
+			const MERCADO_LIBRE_ICON = `
+				<span class="btn-icon" aria-hidden="true">
+					<svg viewBox="0 0 24 24" role="img" focusable="false">
+						<path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+					</svg>
+				</span>`;
+
 			const params = new URLSearchParams(window.location.search);
 			const ancho = (params.get("ancho") || "").trim();
 			const perfil = (params.get("perfil") || "").trim();
@@ -408,6 +444,19 @@
 				return "../assets/placeholders/transporte.webp";
 			};
 
+			const hasMercadoLibreButton = (item) => {
+				const normalizedStatus = String(item.STATUS_ML || "")
+					.trim()
+					.toUpperCase();
+				return isValidLink(item.LINK) && normalizedStatus.startsWith("ACTIV");
+			};
+
+			const getWhatsAppHref = (item) => {
+				const productName = item.NOMBRE || "producto";
+				const message = `Hola, me interesa cotizar ${productName}`;
+				return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+			};
+
 			addTag(`Ancho: ${ancho || "No definido"}`);
 			addTag(`Perfil: ${perfil || "No definido"}`);
 			addTag(`Rin: ${rin || "No definido"}`);
@@ -459,8 +508,13 @@
 				filtered.forEach((item) => {
 					const card = document.createElement("article");
 					card.className = "product";
-					const productLink = isValidLink(item.LINK) ? item.LINK : "../index.html#contacto";
 					const cardImage = getCardImage(item);
+					const mlButtonHtml = hasMercadoLibreButton(item)
+						? `<a class="btn" href="${item.LINK}" target="_blank" rel="noopener noreferrer">${MERCADO_LIBRE_ICON}<span>Comprar</span></a>`
+						: "";
+					const whatsappButtonHtml = `<a class="btn primary" href="${getWhatsAppHref(
+						item,
+					)}" target="_blank" rel="noopener noreferrer">${WHATSAPP_ICON}<span>Cotizar</span></a>`;
 
 					card.innerHTML = `
 						<div class="p-img" style="background-image: url('${cardImage}');">
@@ -474,7 +528,8 @@
 								<span class="spec">${item.APLICACION || "N/D"}</span>
 							</div>
 							<div class="actions">
-								<a class="btn" href="${productLink}" target="_blank" rel="noopener noreferrer">Ver producto</a>
+								${mlButtonHtml}
+								${whatsappButtonHtml}
 							</div>
 						</div>
 					`;
