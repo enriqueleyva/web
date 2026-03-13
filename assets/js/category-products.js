@@ -228,7 +228,7 @@
 		document.head.appendChild(style);
 	}
 
-	const WHATSAPP_NUMBER = "524441449905";
+	const WHATSAPP_NUMBER = "524448278252";
 	const WHATSAPP_ICON = `
 		<span class="btn-icon" aria-hidden="true">
 			<svg viewBox="0 0 24 24" role="img" focusable="false">
@@ -251,7 +251,9 @@
 
 	const getCardImage = (item) => {
 		if (isValidLink(item.IMG)) return item.IMG;
-		return CATEGORY_PLACEHOLDERS[categoryId] || "../assets/placeholders/otr.webp";
+		return (
+			CATEGORY_PLACEHOLDERS[categoryId] || "../assets/placeholders/otr.webp"
+		);
 	};
 
 	const hasMercadoLibreButton = (item) => {
@@ -365,7 +367,8 @@
 		`;
 
 		const imageUrl = getCardImage(item);
-		article.querySelector(".p-img").style.backgroundImage = `url("${imageUrl}")`;
+		article.querySelector(".p-img").style.backgroundImage =
+			`url("${imageUrl}")`;
 
 		article.addEventListener("click", (event) => {
 			if (event.target.closest(".actions a")) return;
@@ -389,12 +392,15 @@
 				item.CONSTRUCCION
 					? `<span class="spec">Construcción: ${item.CONSTRUCCION}</span>`
 					: "",
-				item.APLICACION ? `<span class="spec">Aplicación: ${item.APLICACION}</span>` : "",
+				item.APLICACION
+					? `<span class="spec">Aplicación: ${item.APLICACION}</span>`
+					: "",
 				item.MARCA ? `<span class="spec">Marca: ${item.MARCA}</span>` : "",
 			]
 				.filter(Boolean)
 				.join("");
-			modalSpecs.innerHTML = infoChips || '<span class="spec">Sin información adicional</span>';
+			modalSpecs.innerHTML =
+				infoChips || '<span class="spec">Sin información adicional</span>';
 
 			modalActions.innerHTML = `${mlButtonHtml}${whatsappButtonHtml}`;
 			modalOverlay.classList.add("is-open");

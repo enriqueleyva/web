@@ -21,9 +21,16 @@
 			}
 			body {
 				margin: 0;
-				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-					Helvetica, Arial;
-				background: radial-gradient(
+				font-family:
+					ui-sans-serif,
+					system-ui,
+					-apple-system,
+					Segoe UI,
+					Roboto,
+					Helvetica,
+					Arial;
+				background:
+					radial-gradient(
 						1200px 700px at 15% 0%,
 						rgba(43, 108, 255, 0.2),
 						transparent 55%
@@ -176,7 +183,8 @@
 				border: 1px solid var(--line);
 				border-radius: 24px;
 				overflow: hidden;
-				background: radial-gradient(
+				background:
+					radial-gradient(
 						900px 500px at 25% 35%,
 						rgba(43, 108, 255, 0.26),
 						transparent 58%
@@ -464,22 +472,30 @@
 				background: rgba(255, 92, 142, 0.22);
 				color: #ffc4da;
 			}
-			.family-performance .family-dot { background: #ff5c8e; }
+			.family-performance .family-dot {
+				background: #ff5c8e;
+			}
 			.family-touring {
 				background: rgba(106, 168, 255, 0.22);
 				color: #c7ddff;
 			}
-			.family-touring .family-dot { background: #6aa8ff; }
+			.family-touring .family-dot {
+				background: #6aa8ff;
+			}
 			.family-carga {
 				background: rgba(255, 196, 71, 0.2);
 				color: #ffe7a6;
 			}
-			.family-carga .family-dot { background: #ffc447; }
+			.family-carga .family-dot {
+				background: #ffc447;
+			}
 			.family-terreno {
 				background: rgba(33, 195, 163, 0.2);
 				color: #b7f0e2;
 			}
-			.family-terreno .family-dot { background: #21c3a3; }
+			.family-terreno .family-dot {
+				background: #21c3a3;
+			}
 
 			.range {
 				display: grid;
@@ -509,7 +525,9 @@
 				border-radius: var(--radius);
 				box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
 				overflow: hidden;
-				transition: transform 0.15s ease, background 0.15s ease;
+				transition:
+					transform 0.15s ease,
+					background 0.15s ease;
 				display: flex;
 				flex-direction: column;
 				min-height: 330px;
@@ -521,7 +539,8 @@
 			.p-img {
 				aspect-ratio: 9 / 16;
 				width: 100%;
-				background: radial-gradient(
+				background:
+					radial-gradient(
 						280px 190px at 65% 40%,
 						rgba(106, 168, 255, 0.3),
 						transparent 60%
@@ -790,19 +809,19 @@
 					<div class="catalog-carousel-inner" aria-hidden="true">
 						<div
 							class="catalog-slide active"
-							style="background-image: url('../assets/header4.png')"
+							style="background-image: url(&quot;../assets/header4.png&quot;)"
 						></div>
 						<div
 							class="catalog-slide"
-							style="background-image: url('../assets/header5.png')"
+							style="background-image: url(&quot;../assets/header5.png&quot;)"
 						></div>
 						<div
 							class="catalog-slide"
-							style="background-image: url('../assets/header6.png')"
+							style="background-image: url(&quot;../assets/header6.png&quot;)"
 						></div>
 						<div
 							class="catalog-slide"
-							style="background-image: url('../assets/header.png')"
+							style="background-image: url(&quot;../assets/header.png&quot;)"
 						></div>
 					</div>
 					<div class="catalog-overlay"></div>
@@ -934,19 +953,26 @@
 							<div class="filter-group">
 								<div class="filter-title">Familia</div>
 								<label class="check"
-									><span class="check-pill family-performance"><span class="family-dot"></span>Performance</span
-									><input data-filter="familia" type="checkbox" value="performance"
+									><span class="check-pill family-performance"
+										><span class="family-dot"></span>Performance</span
+									><input
+										data-filter="familia"
+										type="checkbox"
+										value="performance"
 								/></label>
 								<label class="check"
-									><span class="check-pill family-touring"><span class="family-dot"></span>Touring</span
+									><span class="check-pill family-touring"
+										><span class="family-dot"></span>Touring</span
 									><input data-filter="familia" type="checkbox" value="touring"
 								/></label>
 								<label class="check"
-									><span class="check-pill family-carga"><span class="family-dot"></span>Carga</span
+									><span class="check-pill family-carga"
+										><span class="family-dot"></span>Carga</span
 									><input data-filter="familia" type="checkbox" value="carga"
 								/></label>
 								<label class="check"
-									><span class="check-pill family-terreno"><span class="family-dot"></span>Terreno</span
+									><span class="check-pill family-terreno"
+										><span class="family-dot"></span>Terreno</span
 									><input data-filter="familia" type="checkbox" value="terreno"
 								/></label>
 							</div>
@@ -1068,7 +1094,7 @@
 						<b style="font-size: 16px">Contacto</b>
 						<div class="kvs">
 							<div>📍 San Luis Potosí (ejemplo)</div>
-							<div>📞 <a href="tel:+524441449905">+52 444 144 9905</a></div>
+							<div>📞 <a href="tel:+524448278252">+52 444 144 9905</a></div>
 							<div>
 								💬
 								<a href="#" aria-label="WhatsApp">WhatsApp: +52 444 827 8252</a>
@@ -1214,7 +1240,12 @@
 			const grid = document.getElementById("productGrid");
 			const resultsCount = document.getElementById("resultsCount");
 			const activeFilters = document.getElementById("activeFilters");
-			const familyLabels = { performance: "Performance", touring: "Touring", carga: "Carga", terreno: "Terreno" };
+			const familyLabels = {
+				performance: "Performance",
+				touring: "Touring",
+				carga: "Carga",
+				terreno: "Terreno",
+			};
 
 			function money(n) {
 				if (!n) return "Cotizar";
@@ -1248,8 +1279,8 @@
             <div>
               <b>${p.marca} — ${p.modelo}</b>
               <div class="meta">${p.medida}${
-							p.indice ? " • " + p.indice : ""
-						}</div>
+								p.indice ? " • " + p.indice : ""
+							}</div>
             </div>
             <div class="specs">${specs}</div>
             <div class="price-row">
@@ -1266,14 +1297,14 @@
             </div>
           </div>
         </article>
-      `
+      `,
 					);
 				}
 			}
 
 			function selected(name) {
 				return Array.from(
-					document.querySelectorAll(`input[data-filter="${name}"]:checked`)
+					document.querySelectorAll(`input[data-filter="${name}"]:checked`),
 				).map((i) => i.value);
 			}
 
@@ -1347,7 +1378,7 @@
 			document.getElementById("sort").addEventListener("change", applyFilters);
 
 			const catalogSlides = Array.from(
-				document.querySelectorAll(".catalog-slide")
+				document.querySelectorAll(".catalog-slide"),
 			);
 			const catalogDots = Array.from(document.querySelectorAll(".catalog-dot"));
 			const catalogPrevBtn = document.querySelector("[data-catalog='prev']");
